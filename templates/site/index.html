@@ -1,0 +1,506 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frigo Chascomús — Microgauss S.A.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,700;0,900;1,700&family=Nunito:wght@300;400;600;700;800&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--or:#E07B00;--or2:#F5A020;--op:#FDF0DC;--br:#2C1A08;--bm:#4A2E10;--cr:#FBF5EC;--wh:#fff;--gy:#6B5E52;--gl:#D8CFC4;--bd:#EAE0D4;--tx:#1E140A}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Nunito Sans',sans-serif;background:var(--cr);color:var(--tx);overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:70px;background:var(--br);border-bottom:3px solid var(--or);display:flex;align-items:center;justify-content:space-between;padding:0 40px;box-shadow:0 2px 20px rgba(0,0,0,.4)}
+.nav-brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+.nav-logo{width:46px;height:46px;background:var(--or);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;border:2px solid var(--or2)}
+.nav-name{font-family:'Merriweather',serif;font-size:17px;font-weight:700;color:var(--or2)}
+.nav-sub{font-size:10px;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:.15em;text-transform:uppercase}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--or2)}
+.nav-cart{display:flex;align-items:center;gap:8px;background:var(--or);border:none;color:white;padding:10px 22px;border-radius:4px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.nav-cart:hover{background:var(--or2)}
+.cart-badge{background:var(--br);color:var(--or2);font-size:11px;font-weight:800;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--or2)}
+
+/* ── HERO ── */
+.hero{min-height:100vh;background:var(--br);display:grid;grid-template-columns:55% 45%;position:relative;overflow:hidden}
+.hero-rbg{position:absolute;top:0;right:0;bottom:0;width:50%;background:linear-gradient(160deg,#3D1F08 0%,var(--bm) 60%,#5A2E0A 100%);z-index:0}
+.hero-rbg::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 40% 50%,rgba(224,123,0,.18) 0%,transparent 60%)}
+.hero-accent{position:absolute;top:0;bottom:0;left:calc(50% - 3px);width:6px;background:var(--or);transform:skewX(-3deg);z-index:2;box-shadow:0 0 30px rgba(224,123,0,.5)}
+.hero-left{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;padding:110px 56px 80px}
+.hero-ey{display:flex;align-items:center;gap:10px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;letter-spacing:.28em;text-transform:uppercase;color:var(--or);margin-bottom:20px}
+.hero-ey::before{content:'';display:block;width:32px;height:2px;background:var(--or)}
+h1{font-family:'Merriweather',serif;font-size:clamp(48px,5vw,76px);font-weight:900;color:#FFF8F0;line-height:1}
+h1 .or{color:var(--or2)} h1 .it{font-style:italic}
+.hero-tag{font-family:'Nunito',sans-serif;font-size:16px;font-weight:300;color:rgba(255,248,240,.55);margin:22px 0 44px;line-height:1.8;max-width:380px}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+.btn-or{background:var(--or);color:white;padding:15px 34px;border-radius:4px;border:none;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:background .2s,transform .15s;box-shadow:0 4px 16px rgba(224,123,0,.4)}
+.btn-or:hover{background:var(--or2);transform:translateY(-2px)}
+.btn-gh{background:transparent;color:rgba(255,248,240,.8);padding:15px 34px;border-radius:4px;border:1px solid rgba(255,255,255,.2);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s,color .2s}
+.btn-gh:hover{border-color:var(--or);color:var(--or2)}
+.hero-stats{display:flex;gap:36px;margin-top:56px;padding-top:36px;border-top:1px solid rgba(255,255,255,.1)}
+.snum{font-family:'Merriweather',serif;font-size:34px;font-weight:700;color:var(--or2);line-height:1}
+.slbl{font-family:'Nunito',sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em;margin-top:5px}
+.hero-right{position:relative;z-index:3;display:flex;align-items:center;justify-content:center;padding:100px 40px 60px;flex-direction:column;gap:20px}
+.hero-logo{width:300px;max-width:90%;filter:drop-shadow(0 20px 50px rgba(0,0,0,.5));animation:flt 5s ease-in-out infinite}
+@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(224,123,0,.35);border-radius:40px;padding:8px 18px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:600;color:rgba(255,248,240,.7)}
+.hero-chip b{color:var(--or2)}
+
+/* ── ABOUT ── */
+.about{background:var(--wh);padding:96px 48px}
+.about-in{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.sec-ey{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;letter-spacing:.28em;text-transform:uppercase;color:var(--or);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.sec-ey::before{content:'';display:block;width:28px;height:2px;background:var(--or)}
+h2.about{font-family:'Merriweather',serif;font-size:38px;font-weight:700;color:var(--br);line-height:1.2;margin-bottom:22px}
+h2.about em{font-style:italic;color:var(--or)}
+.about-p{font-size:15px;font-weight:300;color:var(--gy);line-height:1.85;margin-bottom:14px}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.badge{display:flex;align-items:center;gap:7px;background:var(--op);border:1px solid rgba(224,123,0,.25);padding:7px 14px;border-radius:4px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:var(--bm)}
+.about-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ac{background:var(--br);padding:28px 22px;border-radius:6px;position:relative;overflow:hidden}
+.ac::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--or)}
+.ac:nth-child(2),.ac:nth-child(4){transform:translateY(14px)}
+.acn{font-family:'Merriweather',serif;font-size:42px;font-weight:700;color:var(--or2);line-height:1}
+.acl{font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-top:6px}
+
+/* ── CATALOG ── */
+#catalogo{background:var(--cr);padding:96px 48px}
+.sec-title{text-align:center;font-family:'Merriweather',serif;font-size:clamp(32px,4vw,50px);font-weight:700;color:var(--br);line-height:1.15;margin-bottom:12px}
+.sec-title em{font-style:italic;color:var(--or)}
+.sec-eyc{text-align:center;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;letter-spacing:.28em;text-transform:uppercase;color:var(--or);margin-bottom:14px}
+.sec-desc{text-align:center;font-size:15px;font-weight:300;color:var(--gy);max-width:480px;margin:0 auto 48px;line-height:1.7}
+.filters{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:44px}
+.fbtn{background:white;border:1px solid var(--gl);padding:9px 22px;border-radius:4px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gy);cursor:pointer;transition:all .2s}
+.fbtn:hover{border-color:var(--or);color:var(--or)}
+.fbtn.active{background:var(--or);border-color:var(--or);color:white}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:22px;max-width:1200px;margin:0 auto}
+.pcard{background:white;border:1px solid var(--bd);border-radius:8px;overflow:hidden;transition:transform .22s,box-shadow .22s}
+.pcard:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(44,26,8,.12)}
+.pcard.hidden{display:none}
+.pimg{height:190px;background:var(--op);display:flex;align-items:center;justify-content:center;font-size:76px;position:relative}
+.ptag{position:absolute;top:12px;left:0;background:var(--or);color:white;font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:0 4px 4px 0}
+.pbody{padding:18px 20px 22px}
+.pcat{font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--or);margin-bottom:5px}
+.pname{font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:var(--br);margin-bottom:7px;line-height:1.25}
+.pdesc{font-size:13px;font-weight:300;color:var(--gy);line-height:1.65;margin-bottom:16px}
+.pfoot{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--bd)}
+.pprice{font-family:'Nunito',sans-serif;font-size:20px;font-weight:800;color:var(--br)}
+.pprice span{font-size:12px;font-weight:400;color:var(--gy);margin-left:3px}
+.abtn{background:var(--br);color:white;border:none;padding:9px 16px;border-radius:4px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.abtn:hover{background:var(--or)}
+
+/* ── PROCESS ── */
+.process{background:var(--br);padding:96px 48px}
+.process .sec-title{color:#FFF8F0}.process .sec-desc{color:rgba(255,248,240,.45)}
+.psteps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:960px;margin:0 auto;position:relative}
+.pline{position:absolute;top:34px;left:12%;right:12%;height:2px;background:linear-gradient(to right,var(--or),rgba(224,123,0,.2))}
+.pstep{text-align:center;padding:0 16px}
+.pcirc{width:68px;height:68px;background:var(--or);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 22px;font-family:'Merriweather',serif;font-size:26px;font-weight:700;color:white;position:relative;z-index:1;box-shadow:0 0 0 6px rgba(224,123,0,.2)}
+.ptitle{font-family:'Merriweather',serif;font-size:16px;font-weight:700;color:#FFF8F0;margin-bottom:10px}
+.pdescr{font-size:13px;font-weight:300;color:rgba(255,248,240,.45);line-height:1.6}
+
+/* ── CONTACT ── */
+#contacto{background:white;padding:96px 48px}
+.contact-in{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+h2.contact{font-family:'Merriweather',serif;font-size:36px;font-weight:700;color:var(--br);margin-bottom:14px;line-height:1.2}
+h2.contact em{font-style:italic;color:var(--or)}
+.contact-p{font-size:15px;font-weight:300;color:var(--gy);line-height:1.8;margin-bottom:28px}
+.clist{display:flex;flex-direction:column;gap:14px}
+.citem{display:flex;align-items:center;gap:14px;font-size:15px;color:var(--tx)}
+.cicon{width:40px;height:40px;background:var(--or);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.cform{display:flex;flex-direction:column;gap:14px}
+.finput{width:100%;padding:13px 16px;border:1px solid var(--bd);background:var(--cr);font-family:'Nunito Sans',sans-serif;font-size:14px;color:var(--tx);border-radius:4px;outline:none;transition:border-color .2s}
+.finput:focus{border-color:var(--or);background:white}
+
+/* ── FOOTER ── */
+footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px solid var(--or)}
+.ftbrand{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px}
+.ftcirc{width:44px;height:44px;background:var(--or);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+.ftname{font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:var(--or2)}
+.ftlegal{font-size:12px;font-weight:300;color:rgba(255,255,255,.3);line-height:1.9}
+.ftlegal strong{color:rgba(255,255,255,.5)}
+
+/* ── CART ── */
+.cart-ov{position:fixed;inset:0;background:rgba(28,20,10,.65);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(2px)}
+.cart-ov.open{opacity:1;pointer-events:all}
+.cart-pan{position:fixed;top:0;right:0;bottom:0;width:420px;background:var(--cr);z-index:201;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-6px 0 40px rgba(0,0,0,.25)}
+.cart-pan.open{transform:translateX(0)}
+.cart-hd{background:var(--br);padding:22px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--or)}
+.cart-hd h3{font-family:'Merriweather',serif;font-size:20px;color:#FFF8F0;font-weight:700}
+.cart-x{background:none;border:none;color:rgba(255,255,255,.6);font-size:22px;cursor:pointer;transition:color .2s}
+.cart-x:hover{color:white}
+.cart-items{flex:1;overflow-y:auto;padding:18px 28px}
+.cart-empty{text-align:center;padding:60px 20px;color:var(--gy)}
+.cei{font-size:48px;margin-bottom:12px}
+.cart-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd)}
+.ci-em{font-size:34px;width:50px;height:50px;background:var(--op);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ci-info{flex:1}
+.ci-name{font-family:'Merriweather',serif;font-size:14px;font-weight:700;color:var(--br)}
+.ci-price{font-size:12px;color:var(--gy);margin-top:2px}
+.ci-qty{display:flex;align-items:center;gap:7px}
+.qbtn{width:26px;height:26px;background:white;border:1px solid var(--gl);border-radius:4px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--tx);transition:background .15s}
+.qbtn:hover{background:var(--op);border-color:var(--or)}
+.qnum{font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;min-width:22px;text-align:center;color:var(--br)}
+.ci-del{background:none;border:none;color:#C0A080;font-size:16px;cursor:pointer;padding:4px;transition:color .2s}
+.ci-del:hover{color:#CC3333}
+.cart-ft{padding:18px 28px 26px;border-top:2px solid var(--bd);background:white}
+.ct-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.ct-lbl{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gy)}
+.ct-val{font-family:'Merriweather',serif;font-size:24px;font-weight:700;color:var(--br)}
+.ct-note{font-size:11px;color:#B0A090;margin-bottom:14px;text-align:right}
+.checkout-btn{width:100%;background:var(--or);color:white;border:none;padding:16px;border-radius:4px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;margin-top:10px;transition:background .2s;box-shadow:0 4px 16px rgba(224,123,0,.35)}
+.checkout-btn:hover{background:var(--or2)}
+
+/* ── MODAL ── */
+.modal-ov{position:fixed;inset:0;background:rgba(28,20,10,.75);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px)}
+.modal-ov.open{opacity:1;pointer-events:all}
+.modal{background:white;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;border-radius:8px;transform:scale(.95) translateY(12px);transition:transform .3s;box-shadow:0 24px 80px rgba(0,0,0,.4)}
+.modal-ov.open .modal{transform:scale(1) translateY(0)}
+.modal-hd{background:var(--br);padding:26px 30px;border-radius:8px 8px 0 0;border-bottom:3px solid var(--or);position:relative}
+.modal-hd h3{font-family:'Merriweather',serif;font-size:22px;color:#FFF8F0;font-weight:700}
+.modal-hd p{color:rgba(255,248,240,.45);font-size:13px;margin-top:5px}
+.modal-x{position:absolute;top:18px;right:20px;background:none;border:none;color:rgba(255,255,255,.5);font-size:22px;cursor:pointer;transition:color .2s}
+.modal-x:hover{color:white}
+.modal-body{padding:28px 30px}
+.fg{margin-bottom:18px}
+.fl{display:block;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gy);margin-bottom:7px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.os-box{background:var(--op);border:1px solid rgba(224,123,0,.25);border-left:4px solid var(--or);border-radius:4px;padding:14px 18px;margin-bottom:22px}
+.os-title{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#7A5030;margin-bottom:10px}
+.os-item{font-size:13px;color:var(--bm);margin-bottom:5px;display:flex;justify-content:space-between}
+.submit-btn{width:100%;background:var(--or);color:white;border:none;padding:16px;border-radius:4px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s;box-shadow:0 4px 16px rgba(224,123,0,.3)}
+.submit-btn:hover{background:var(--or2)}
+.success-st{text-align:center;padding:40px 30px;display:none}
+.success-st.show{display:block}
+.success-circ{width:76px;height:76px;background:#F0FAF0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 20px;border:2px solid #8BC88B}
+.success-st h3{font-family:'Merriweather',serif;font-size:24px;color:var(--br);margin-bottom:12px}
+.success-st p{font-size:14px;color:var(--gy);line-height:1.7}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--br);color:#FFF8F0;padding:12px 26px;border-radius:40px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;z-index:999;border:2px solid var(--or);box-shadow:0 8px 32px rgba(0,0,0,.3);transition:transform .35s cubic-bezier(.4,0,.2,1);white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@keyframes fiu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero-ey{animation:fiu .5s .1s both}.hero-left h1{animation:fiu .6s .2s both}.hero-tag{animation:fiu .6s .35s both}.hero-ctas{animation:fiu .6s .5s both}.hero-stats{animation:fiu .6s .65s both}.hero-right{animation:fiu .8s .3s both}
+
+@media(max-width:900px){
+  nav{padding:0 18px}.nav-links{display:none}
+  .hero{grid-template-columns:1fr}.hero-rbg,.hero-accent,.hero-right{display:none}
+  .hero-left{padding:100px 24px 60px}
+  .about{padding:64px 20px}.about-in{grid-template-columns:1fr;gap:40px}.about-cards{display:none}
+  #catalogo{padding:64px 20px}.grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  .process{padding:64px 20px}.psteps{grid-template-columns:1fr 1fr;gap:28px}.pline{display:none}
+  #contacto{padding:64px 20px}.contact-in{grid-template-columns:1fr;gap:40px}
+  .cart-pan{width:100%}.fr{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-logo">🐄</div>
+    <div><div class="nav-name">Frigo Chascomús</div><div class="nav-sub">Microgauss S.A.</div></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#catalogo">Catálogo</a></li>
+    <li><a href="#como-funciona">Cómo Pedimos</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <button class="nav-cart" onclick="toggleCart()">🛒 Mi Pedido <div class="cart-badge" id="cartBadge">0</div></button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-rbg"></div><div class="hero-accent"></div>
+  <div class="hero-left">
+    <div class="hero-ey">Chascomús · Buenos Aires</div>
+    <h1>Carne<br><span class="or it">vacuna</span><br>de primera.</h1>
+    <p class="hero-tag">Faena propia, trazabilidad garantizada y atención personalizada. Hacienda de la zona para traerte lo mejor del campo bonaerense.</p>
+    <div class="hero-ctas">
+      <a href="#catalogo" class="btn-or">Ver Catálogo</a>
+      <a href="#nosotros" class="btn-gh">Quiénes somos</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="snum">100%</div><div class="slbl">Vacuno argentino</div></div>
+      <div><div class="snum">{{ products|length }}+</div><div class="slbl">Productos</div></div>
+      <div><div class="snum">Local</div><div class="slbl">Hacienda de la zona</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-logo" src="{% static 'img/logo.png' %}" alt="Frigo Chascomús"
+         onerror="this.style.display='none';document.getElementById('hero-emoji').style.display='block'">
+    <div id="hero-emoji" style="font-size:160px;animation:flt 5s ease-in-out infinite;display:none">🐄</div>
+    <div class="hero-chip">📍 <b>Cnel. Baigorria 2353</b> · Chascomús, Bs. As.</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="nosotros">
+  <div class="about-in">
+    <div>
+      <div class="sec-ey">Quiénes somos</div>
+      <h2 class="about">El campo bonaerense<br>en tu <em>mesa.</em></h2>
+      <p class="about-p">Frigo Chascomús es una empresa de la industria frigorífica bonaerense. Operamos bajo la razón social <strong>Microgauss S.A.</strong> y contamos con habilitación SENASA para toda nuestra operación.</p>
+      <p class="about-p">Trabajamos con hacienda de la zona de Chascomús y la cuenca del Salado, garantizando calidad, frescura y trazabilidad desde el campo hasta la entrega.</p>
+      <div class="badges">
+        <div class="badge">✅ SENASA habilitado</div>
+        <div class="badge">🌿 Hacienda local</div>
+        <div class="badge">❄️ Cámara frigorífica</div>
+        <div class="badge">📦 Sellado al vacío</div>
+        <div class="badge">🚛 Despacho propio</div>
+      </div>
+    </div>
+    <div class="about-cards">
+      <div class="ac"><div class="acn">100%</div><div class="acl">Vacuno argentino</div></div>
+      <div class="ac"><div class="acn">Zona</div><div class="acl">Hacienda local</div></div>
+      <div class="ac"><div class="acn">{{ products|length }}+</div><div class="acl">Productos</div></div>
+      <div class="ac"><div class="acn">6</div><div class="acl">Días de atención</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATÁLOGO DINÁMICO -->
+<section id="catalogo">
+  <div class="sec-eyc">Nuestros Productos</div>
+  <h2 class="sec-title">El <em>catálogo</em> completo</h2>
+  <p class="sec-desc">Cortes sueltos, media res y productos al vacío. Los precios se confirman con el vendedor según volumen y fecha.</p>
+
+  <div class="filters">
+    <button class="fbtn active" onclick="filterCat('todos',this)">Todos</button>
+    {% for cat in categories %}
+    <button class="fbtn" onclick="filterCat('{{ cat.slug }}',this)">{{ cat.name }}</button>
+    {% endfor %}
+  </div>
+
+  <div class="grid" id="grid">
+    {% for p in products %}
+    <div class="pcard" data-cat="{{ p.category.slug|default:'otros' }}">
+      <div class="pimg">
+        {{ p.emoji }}
+        {% if p.tag %}<div class="ptag">{{ p.tag }}</div>{% endif %}
+      </div>
+      <div class="pbody">
+        <div class="pcat">{{ p.category.name|default:"General" }}</div>
+        <div class="pname">{{ p.name }}</div>
+        <div class="pdesc">{{ p.description }}</div>
+        <div class="pfoot">
+          <div class="pprice">{{ p.price_label }}<span>/ {{ p.unit }}</span></div>
+          <button class="abtn" onclick="addToCart({id:{{ p.pk }},name:'{{ p.name|escapejs }}',emoji:'{{ p.emoji }}',price:'{{ p.price_label|escapejs }}',unit:'{{ p.unit|escapejs }}'})">+ Agregar</button>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--gy)">
+      <div style="font-size:48px;margin-bottom:12px">📦</div>
+      <p style="font-size:15px">No hay productos cargados todavía.</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section class="process" id="como-funciona">
+  <div class="sec-eyc" style="color:var(--or)">Sin pagos online</div>
+  <h2 class="sec-title">¿Cómo <em>hacemos</em> el pedido?</h2>
+  <p class="sec-desc">Tu consulta llega directamente a nuestro equipo. Un vendedor te contacta para cerrar todos los detalles.</p>
+  <div class="psteps">
+    <div class="pline"></div>
+    <div class="pstep"><div class="pcirc">1</div><div class="ptitle">Elegís productos</div><div class="pdescr">Navegás el catálogo y agregás al carrito lo que necesitás.</div></div>
+    <div class="pstep"><div class="pcirc">2</div><div class="ptitle">Dejás tus datos</div><div class="pdescr">Nombre, teléfono y email. Sin tarjeta ni pago online.</div></div>
+    <div class="pstep"><div class="pcirc">3</div><div class="ptitle">Lo recibimos</div><div class="pdescr">El equipo recibe tu consulta al instante por email y panel interno.</div></div>
+    <div class="pstep"><div class="pcirc">4</div><div class="ptitle">Te contactamos</div><div class="pdescr">Un vendedor confirma precio, cantidad y entrega con vos.</div></div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="sec-eyc">Encontranos</div>
+  <h2 class="sec-title" style="margin-bottom:48px">Contacto y <em>ubicación</em></h2>
+  <div class="contact-in">
+    <div>
+      <h2 class="contact">Estamos en<br><em>Chascomús.</em></h2>
+      <p class="contact-p">Podés visitarnos en planta, llamarnos o enviarnos una consulta desde el catálogo.</p>
+      <div class="clist">
+        <div class="citem"><div class="cicon">📍</div><div>Coronel Baigorria 2353, Chascomús, Buenos Aires</div></div>
+        <div class="citem"><div class="cicon">📞</div><div>02241 – 430885</div></div>
+        <div class="citem"><div class="cicon">🏢</div><div>Microgauss S.A.</div></div>
+        <div class="citem"><div class="cicon">🕐</div><div>Lunes a Viernes 6:00–14:00 · Sábados 6:00–11:00</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="sec-eyc" style="text-align:left;margin-bottom:18px">Envianos tu consulta</div>
+      <div class="cform">
+        <input class="finput" type="text" placeholder="Tu nombre">
+        <input class="finput" type="email" placeholder="Email">
+        <input class="finput" type="tel" placeholder="Teléfono / WhatsApp">
+        <textarea class="finput" rows="4" placeholder="¿En qué podemos ayudarte?"></textarea>
+        <button class="btn-or">Enviar consulta</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ftbrand"><div class="ftcirc">🐄</div><div class="ftname">Frigo Chascomús</div></div>
+  <div class="ftlegal">
+    <strong>Microgauss S.A.</strong> · Coronel Baigorria 2353, Chascomús, Buenos Aires<br>
+    Tel. 02241-430885 · SENASA habilitado<br>
+    © {% now "Y" %} Frigo Chascomús — Todos los derechos reservados
+  </div>
+</footer>
+
+<!-- CART PANEL -->
+<div class="cart-ov" id="cartOv" onclick="toggleCart()"></div>
+<div class="cart-pan" id="cartPan">
+  <div class="cart-hd"><h3>🛒 Mi Pedido</h3><button class="cart-x" onclick="toggleCart()">✕</button></div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty"><div class="cei">🛒</div><p style="font-size:14px;font-weight:300;line-height:1.6">Todavía no agregaste productos.<br>Explorá el catálogo.</p></div>
+  </div>
+  <div class="cart-ft">
+    <div class="ct-row"><div class="ct-lbl">Total estimado</div><div class="ct-val" id="cartTotal">—</div></div>
+    <div class="ct-note">* Los precios se confirman con el vendedor</div>
+    <button class="checkout-btn" onclick="openModal()">Enviar consulta de pedido →</button>
+  </div>
+</div>
+
+<!-- ORDER MODAL -->
+<div class="modal-ov" id="orderModal">
+  <div class="modal">
+    <div class="modal-hd">
+      <h3>Confirmá tu Pedido</h3>
+      <p>Completá tus datos y te contactamos a la brevedad.</p>
+      <button class="modal-x" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="mBody">
+      <div class="os-box" id="mSummary"><div class="os-title">📋 Resumen del pedido</div></div>
+      <div class="fr">
+        <div class="fg"><label class="fl">Nombre y apellido *</label><input class="finput" id="fName" type="text" placeholder="Juan García"></div>
+        <div class="fg"><label class="fl">Teléfono / WhatsApp *</label><input class="finput" id="fPhone" type="tel" placeholder="02241-000000"></div>
+      </div>
+      <div class="fg"><label class="fl">Email *</label><input class="finput" id="fEmail" type="email" placeholder="tu@email.com"></div>
+      <div class="fg"><label class="fl">Zona / Localidad</label><input class="finput" id="fZone" type="text" placeholder="Ej: Chascomús, La Plata, CABA…"></div>
+      <div class="fg"><label class="fl">Comentarios</label><textarea class="finput" id="fNotes" rows="3" placeholder="Ej: necesito entrega el jueves, tengo cámara para 100 kg…"></textarea></div>
+      <button class="submit-btn" onclick="submitOrder()">📨 Enviar Pedido a Frigo Chascomús</button>
+    </div>
+    <div class="success-st" id="successSt">
+      <div class="success-circ">✅</div>
+      <h3>¡Pedido enviado!</h3>
+      <p>Recibimos tu consulta. Un vendedor te va a contactar a la brevedad para confirmar cantidades, precio y entrega.</p>
+      <br><p style="font-size:12px;color:#B0A090">También te enviamos un resumen por email.</p>
+      <br><button class="btn-or" onclick="closeModal()" style="display:block;margin:0 auto">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CSRF = '{{ csrf_token }}';
+let cart = [];
+
+function addToCart(p) {
+  const ex = cart.find(i => i.id === p.id);
+  if (ex) ex.qty++; else cart.push({...p, qty:1});
+  renderCart();
+  showToast('✓ ' + p.name + ' agregado al pedido');
+}
+
+function removeFromCart(id) { cart = cart.filter(i => i.id !== id); renderCart(); }
+
+function changeQty(id, d) {
+  const it = cart.find(i => i.id === id); if (!it) return;
+  it.qty += d;
+  if (it.qty <= 0) removeFromCart(id); else renderCart();
+}
+
+function renderCart() {
+  const el = document.getElementById('cartItems');
+  const em = document.getElementById('cartEmpty');
+  const badge = document.getElementById('cartBadge');
+  badge.textContent = cart.reduce((s,i) => s + i.qty, 0);
+  el.querySelectorAll('.cart-item').forEach(e => e.remove());
+  if (!cart.length) { em.style.display='block'; document.getElementById('cartTotal').textContent='—'; return; }
+  em.style.display = 'none';
+  cart.forEach(it => {
+    const d = document.createElement('div'); d.className = 'cart-item';
+    d.innerHTML = `<div class="ci-em">${it.emoji}</div><div class="ci-info"><div class="ci-name">${it.name}</div><div class="ci-price">${it.price} · por ${it.unit}</div></div><div class="ci-qty"><button class="qbtn" onclick="changeQty(${it.id},-1)">−</button><span class="qnum">${it.qty}</span><button class="qbtn" onclick="changeQty(${it.id},+1)">+</button></div><button class="ci-del" onclick="removeFromCart(${it.id})">🗑</button>`;
+    el.insertBefore(d, em);
+  });
+  document.getElementById('cartTotal').textContent = 'Ver con vendedor';
+}
+
+function toggleCart() {
+  document.getElementById('cartOv').classList.toggle('open');
+  document.getElementById('cartPan').classList.toggle('open');
+}
+
+function openModal() {
+  if (!cart.length) { showToast('⚠️ Agregá al menos un producto'); return; }
+  const s = document.getElementById('mSummary');
+  s.innerHTML = '<div class="os-title">📋 Resumen del pedido</div>';
+  cart.forEach(it => {
+    const r = document.createElement('div'); r.className = 'os-item';
+    r.innerHTML = `<span>${it.emoji} ${it.name} × ${it.qty} ${it.unit}</span><span>Consultar precio</span>`;
+    s.appendChild(r);
+  });
+  document.getElementById('orderModal').classList.add('open');
+  document.getElementById('mBody').style.display = 'block';
+  document.getElementById('successSt').classList.remove('show');
+  document.getElementById('cartOv').classList.remove('open');
+  document.getElementById('cartPan').classList.remove('open');
+}
+
+function closeModal() { document.getElementById('orderModal').classList.remove('open'); }
+
+async function submitOrder() {
+  const name  = document.getElementById('fName').value.trim();
+  const phone = document.getElementById('fPhone').value.trim();
+  const email = document.getElementById('fEmail').value.trim();
+  if (!name || !phone || !email) { showToast('⚠️ Completá nombre, teléfono y email'); return; }
+  try {
+    const res = await fetch('/api/orders/', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','X-CSRFToken': CSRF},
+      body: JSON.stringify({
+        customer_name:  name,
+        customer_phone: phone,
+        customer_email: email,
+        customer_zone:  document.getElementById('fZone').value,
+        notes:          document.getElementById('fNotes').value,
+        items: cart,
+      }),
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      document.getElementById('mBody').style.display = 'none';
+      document.getElementById('successSt').classList.add('show');
+      cart = []; renderCart();
+    } else {
+      showToast('⚠️ ' + (data.error || 'Error al enviar. Intentá de nuevo.'));
+    }
+  } catch(e) { showToast('⚠️ Error de conexión. Intentá de nuevo.'); }
+}
+
+function filterCat(cat, btn) {
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.pcard').forEach(c =>
+    c.classList.toggle('hidden', cat !== 'todos' && c.dataset.cat !== cat)
+  );
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+{% block title %}Categorías{% endblock %}
+{% block nav_categorias %}active{% endblock %}
+{% block breadcrumb %}<span class="topbar-title">Categorías</span>{% endblock %}
+
+{% block content %}
+<div style="display:flex;justify-content:flex-end;margin-bottom:20px">
+  <a href="{% url 'admin_categoria_nueva' %}" class="btn btn-primary">+ Nueva categoría</a>
+</div>
+
+<div class="card">
+  <div class="card-head">Categorías del catálogo</div>
+  {% if categories %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Nombre</th><th>Slug</th><th>Orden</th><th>Productos</th><th>Acciones</th></tr></thead>
+      <tbody>
+        {% for cat in categories %}
+        <tr>
+          <td><strong>{{ cat.name }}</strong></td>
+          <td style="font-family:monospace;font-size:12px;color:#6B5E52">{{ cat.slug }}</td>
+          <td style="text-align:center;color:#6B5E52">{{ cat.order }}</td>
+          <td style="text-align:center"><span class="badge badge-nuevo">{{ cat.num_products }}</span></td>
+          <td class="td-actions">
+            <a href="{% url 'admin_categoria_editar' cat.pk %}" class="btn btn-ghost btn-sm">✏️ Editar</a>
+            <a href="{% url 'admin_categoria_delete' cat.pk %}" class="btn btn-danger btn-sm">🗑</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">🏷️</div>
+    <p>No hay categorías todavía.<br>
+    <a href="{% url 'admin_categoria_nueva' %}" class="btn btn-primary" style="margin-top:16px;display:inline-flex">+ Crear primera categoría</a></p>
+  </div>
+  {% endif %}
+</div>
+
+<div class="alert alert-warning" style="margin-top:0">
+  💡 Las categorías aparecen como filtros en el catálogo del sitio web. El slug debe ser único y sin espacios (se genera automáticamente del nombre si lo dejás vacío).
+</div>
+{% endblock %}

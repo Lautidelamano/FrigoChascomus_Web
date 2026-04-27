@@ -1,0 +1,60 @@
+{% extends "admin/base.html" %}
+{% block title %}{% if is_new %}Nueva categoría{% else %}Editar: {{ cat.name }}{% endif %}{% endblock %}
+{% block nav_categorias %}active{% endblock %}
+{% block breadcrumb %}
+  <a href="{% url 'admin_categorias' %}" class="btn btn-ghost btn-sm">← Categorías</a>
+  <span class="topbar-sep">›</span>
+  <span class="topbar-title">{% if is_new %}Nueva categoría{% else %}Editar: {{ cat.name }}{% endif %}</span>
+{% endblock %}
+
+{% block content %}
+<div style="max-width:500px">
+<form method="post">{% csrf_token %}
+<div class="card">
+  <div class="card-head">{% if is_new %}➕ Nueva categoría{% else %}✏️ Editar categoría{% endif %}</div>
+  <div class="card-body">
+    <div class="form-group">
+      <label class="form-label">Nombre <span class="req">*</span></label>
+      <input type="text" name="name" class="form-control" value="{{ cat.name|default:'' }}"
+             placeholder="Ej: Cortes sueltos, Al Vacío, Media Res…" required autofocus
+             oninput="autoSlug(this.value)">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Slug</label>
+      <input type="text" name="slug" id="slug-field" class="form-control" value="{{ cat.slug|default:'' }}"
+             placeholder="cortes-sueltos">
+      <div class="form-hint">Se usa internamente para los filtros. Se genera automáticamente del nombre. Solo letras minúsculas, números y guiones.</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Orden</label>
+      <input type="number" name="order" class="form-control" value="{{ cat.order|default:0 }}" min="0">
+      <div class="form-hint">Menor número aparece primero en los filtros del catálogo</div>
+    </div>
+  </div>
+</div>
+<div style="display:flex;gap:12px">
+  <button type="submit" class="btn btn-primary">{% if is_new %}✅ Crear{% else %}💾 Guardar{% endif %}</button>
+  <a href="{% url 'admin_categorias' %}" class="btn btn-ghost">Cancelar</a>
+  {% if not is_new %}
+  <a href="{% url 'admin_categoria_delete' cat.pk %}" class="btn btn-danger" style="margin-left:auto">🗑 Eliminar</a>
+  {% endif %}
+</div>
+</form>
+</div>
+
+<script>
+function autoSlug(name) {
+  const field = document.getElementById('slug-field');
+  if (!field.dataset.manual) {
+    field.value = name.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-');
+  }
+}
+document.getElementById('slug-field').addEventListener('input', () => {
+  document.getElementById('slug-field').dataset.manual = '1';
+});
+</script>
+{% endblock %}

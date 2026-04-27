@@ -1,0 +1,100 @@
+{% extends "admin/base.html" %}
+{% block title %}Productos{% endblock %}
+{% block nav_productos %}active{% endblock %}
+{% block breadcrumb %}<span class="topbar-title">Productos</span>{% endblock %}
+
+{% block content %}
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+  <div style="display:flex;gap:16px">
+    <div class="stat-card orange" style="margin-bottom:0;padding:14px 20px">
+      <div class="stat-num" style="font-size:26px">{{ activos }}</div>
+      <div class="stat-lbl">Activos</div>
+    </div>
+    <div class="stat-card brown" style="margin-bottom:0;padding:14px 20px">
+      <div class="stat-num" style="font-size:26px">{{ total }}</div>
+      <div class="stat-lbl">Total</div>
+    </div>
+  </div>
+  <a href="{% url 'admin_producto_nuevo' %}" class="btn btn-primary">+ Nuevo producto</a>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    Catálogo de productos
+    <form method="get" style="display:flex;gap:8px;margin-left:auto;flex-wrap:wrap">
+      <select name="cat" class="form-control" style="width:auto;padding:7px 12px;font-size:13px" onchange="this.form.submit()">
+        <option value="">Todas las categorías</option>
+        {% for cat in categories %}
+        <option value="{{ cat.slug }}" {% if cat_filter == cat.slug %}selected{% endif %}>{{ cat.name }}</option>
+        {% endfor %}
+      </select>
+      <select name="active" class="form-control" style="width:auto;padding:7px 12px;font-size:13px" onchange="this.form.submit()">
+        <option value="">Todos</option>
+        <option value="1" {% if act_filter == '1' %}selected{% endif %}>Solo activos</option>
+        <option value="0" {% if act_filter == '0' %}selected{% endif %}>Solo inactivos</option>
+      </select>
+      <input type="text" name="q" value="{{ search }}" placeholder="Buscar…"
+             style="padding:7px 12px;border:1px solid #EAE0D4;border-radius:5px;font-family:'Nunito',sans-serif;font-size:13px;width:180px;outline:none">
+      <button type="submit" class="btn btn-dark btn-sm">Buscar</button>
+    </form>
+  </div>
+
+  {% if page.object_list %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Unidad</th><th>Etiqueta</th><th>Orden</th><th>Estado</th><th>Acciones</th></tr></thead>
+      <tbody>
+        {% for p in page.object_list %}
+        <tr>
+          <td>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-size:24px">{{ p.emoji }}</span>
+              <div>
+                <div style="font-weight:700">{{ p.name }}</div>
+                {% if p.description %}
+                <div style="font-size:11px;color:#6B5E52;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.description }}</div>
+                {% endif %}
+              </div>
+            </div>
+          </td>
+          <td>{{ p.category.name|default:"—" }}</td>
+          <td style="font-weight:700">{{ p.price_label }}</td>
+          <td style="color:#6B5E52">{{ p.unit }}</td>
+          <td>{% if p.tag %}<span class="badge badge-nuevo">{{ p.tag }}</span>{% else %}—{% endif %}</td>
+          <td style="color:#6B5E52;text-align:center">{{ p.order }}</td>
+          <td>
+            <span class="badge {% if p.active %}badge-active{% else %}badge-inactive{% endif %}">
+              {% if p.active %}Activo{% else %}Inactivo{% endif %}
+            </span>
+          </td>
+          <td class="td-actions">
+            <a href="{% url 'admin_producto_editar' p.pk %}" class="btn btn-ghost btn-sm">✏️ Editar</a>
+            <a href="{% url 'admin_producto_toggle' p.pk %}" class="btn btn-sm {% if p.active %}btn-ghost{% else %}btn-success{% endif %}">
+              {% if p.active %}🔴 Desactivar{% else %}🟢 Activar{% endif %}
+            </a>
+            <a href="{% url 'admin_producto_delete' p.pk %}" class="btn btn-danger btn-sm">🗑</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if page.paginator.num_pages > 1 %}
+  <div class="pagination">
+    <div class="pag-info">{{ page.paginator.count }} productos</div>
+    <div class="pag-links">
+      {% if page.has_previous %}<a href="?page={{ page.previous_page_number }}{% if search %}&q={{ search }}{% endif %}{% if cat_filter %}&cat={{ cat_filter }}{% endif %}">←</a>{% endif %}
+      <span class="current">{{ page.number }}</span>
+      {% if page.has_next %}<a href="?page={{ page.next_page_number }}{% if search %}&q={{ search }}{% endif %}{% if cat_filter %}&cat={{ cat_filter }}{% endif %}">→</a>{% endif %}
+    </div>
+  </div>
+  {% endif %}
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">📦</div>
+    <p>No hay productos{% if search %} para "{{ search }}"{% endif %}.<br>
+    <a href="{% url 'admin_producto_nuevo' %}" class="btn btn-primary" style="margin-top:16px;display:inline-flex">+ Agregar primer producto</a></p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

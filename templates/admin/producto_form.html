@@ -1,0 +1,101 @@
+{% extends "admin/base.html" %}
+{% block title %}{% if is_new %}Nuevo producto{% else %}Editar: {{ product }}{% endif %}{% endblock %}
+{% block nav_productos %}active{% endblock %}
+{% block breadcrumb %}
+  <a href="{% url 'admin_productos' %}" class="btn btn-ghost btn-sm">← Productos</a>
+  <span class="topbar-sep">›</span>
+  <span class="topbar-title">{% if is_new %}Nuevo producto{% else %}Editar producto{% endif %}</span>
+{% endblock %}
+
+{% block content %}
+<div style="max-width:700px">
+<form method="post">{% csrf_token %}
+<div class="card">
+  <div class="card-head">{% if is_new %}➕ Nuevo producto{% else %}✏️ Editar: {{ product }}{% endif %}</div>
+  <div class="card-body">
+
+    <div class="form-row form-row-2">
+      <div class="form-group" style="grid-column:1/-1">
+        <label class="form-label">Nombre del producto <span class="req">*</span></label>
+        <input type="text" name="name" class="form-control" value="{{ product.name|default:'' }}"
+               placeholder="Ej: Asado de Tira, Peceto al Vacío…" required autofocus>
+      </div>
+    </div>
+
+    <div class="form-row form-row-2">
+      <div class="form-group">
+        <label class="form-label">Emoji</label>
+        <input type="text" name="emoji" class="form-control" value="{{ product.emoji|default:'🥩' }}"
+               placeholder="🥩" style="font-size:24px;text-align:center">
+        <div class="form-hint">Hacé clic en el campo y usá el selector de emojis del sistema (Windows+. / Cmd+Ctrl+Espacio)</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Categoría</label>
+        <select name="category" class="form-control">
+          <option value="">Sin categoría</option>
+          {% for cat in categories %}
+          <option value="{{ cat.pk }}" {% if product.category_id == cat.pk %}selected{% endif %}>{{ cat.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Descripción</label>
+      <textarea name="description" class="form-control" rows="3"
+                placeholder="Descripción del producto, forma de preparación, características…">{{ product.description|default:'' }}</textarea>
+    </div>
+
+    <div class="form-row form-row-3">
+      <div class="form-group">
+        <label class="form-label">Precio / Etiqueta</label>
+        <input type="text" name="price_label" class="form-control"
+               value="{{ product.price_label|default:'Consultar' }}"
+               placeholder="Consultar, $6.800, Mayorista…">
+        <div class="form-hint">Se muestra en la tarjeta del producto</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Unidad de venta</label>
+        <input type="text" name="unit" class="form-control"
+               value="{{ product.unit|default:'kg' }}"
+               placeholder="kg, pieza, unidad…">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Orden</label>
+        <input type="number" name="order" class="form-control"
+               value="{{ product.order|default:0 }}" min="0">
+        <div class="form-hint">Menor número aparece primero</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Etiqueta destacada</label>
+      <input type="text" name="tag" class="form-control"
+             value="{{ product.tag|default:'' }}"
+             placeholder="Ej: Al Vacío, Mayorista, Nuevo, Oferta…">
+      <div class="form-hint">Aparece como chip naranja sobre la imagen del producto. Dejar vacío para no mostrar.</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-check">
+        <input type="checkbox" name="active" value="1" {% if product.active or is_new %}checked{% endif %}>
+        <span class="form-check-label">Visible en el catálogo del sitio</span>
+      </label>
+    </div>
+
+  </div>
+</div>
+
+<div style="display:flex;gap:12px">
+  <button type="submit" class="btn btn-primary">
+    {% if is_new %}✅ Crear producto{% else %}💾 Guardar cambios{% endif %}
+  </button>
+  <a href="{% url 'admin_productos' %}" class="btn btn-ghost">Cancelar</a>
+  {% if not is_new %}
+  <a href="{% url 'admin_producto_delete' product.pk %}" class="btn btn-danger" style="margin-left:auto">🗑 Eliminar</a>
+  {% endif %}
+</div>
+
+</form>
+</div>
+{% endblock %}

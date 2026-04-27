@@ -1,0 +1,15 @@
+NUEVO PEDIDO — Frigo Chascomús
+{{ order.created_at|date:"d/m/Y H:i" }}
+
+CLIENTE:
+  Nombre:   {{ order.customer_name }}
+  Teléfono: {{ order.customer_phone }}
+  Email:    {{ order.customer_email }}
+  {% if order.customer_zone %}Zona: {{ order.customer_zone }}{% endif %}
+
+PRODUCTOS:
+{% for item in order.items %}  - {{ item.name }} x{{ item.qty }} {{ item.unit }}
+{% endfor %}
+{% if order.notes %}COMENTARIO: {{ order.notes }}{% endif %}
+
+Ver en panel: /admin/pedidos/{{ order.id }}/

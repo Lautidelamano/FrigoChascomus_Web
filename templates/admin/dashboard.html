@@ -1,0 +1,67 @@
+{% extends "admin/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block nav_dashboard %}active{% endblock %}
+{% block breadcrumb %}<span class="topbar-title">Dashboard</span>{% endblock %}
+
+{% block content %}
+<div class="stat-grid">
+  <div class="stat-card orange">
+    <div class="stat-num">{{ nuevos }}</div>
+    <div class="stat-lbl">Pedidos nuevos</div>
+  </div>
+  <div class="stat-card blue">
+    <div class="stat-num">{{ contactados }}</div>
+    <div class="stat-lbl">Contactados</div>
+  </div>
+  <div class="stat-card green">
+    <div class="stat-num">{{ cerrados }}</div>
+    <div class="stat-lbl">Cerrados</div>
+  </div>
+  <div class="stat-card brown">
+    <div class="stat-num">{{ total_pedidos }}</div>
+    <div class="stat-lbl">Total pedidos</div>
+  </div>
+  <div class="stat-card orange">
+    <div class="stat-num">{{ productos_activos }}</div>
+    <div class="stat-lbl">Productos activos</div>
+  </div>
+  <div class="stat-card brown">
+    <div class="stat-num">{{ total_categorias }}</div>
+    <div class="stat-lbl">Categorías</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    🛒 Pedidos recientes
+    <a href="{% url 'admin_pedidos' %}" class="btn btn-ghost btn-sm">Ver todos</a>
+  </div>
+  {% if pedidos_recientes %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Cliente</th><th>Teléfono</th><th>Productos</th><th>Estado</th><th>Fecha</th><th></th></tr></thead>
+      <tbody>
+        {% for o in pedidos_recientes %}
+        <tr>
+          <td><strong>{{ o.customer_name }}</strong></td>
+          <td style="color:#E07B00;font-weight:700">{{ o.customer_phone }}</td>
+          <td style="color:#6B5E52;font-size:12px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ o.items_summary }}</td>
+          <td><span class="badge badge-{{ o.status }}">{{ o.get_status_display }}</span></td>
+          <td style="color:#6B5E52;font-size:12px;white-space:nowrap">{{ o.created_at|date:"d/m/Y H:i" }}</td>
+          <td><a href="{% url 'admin_pedido_detail' o.id %}" class="btn btn-dark btn-sm">Ver →</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state"><div class="empty-icon">📭</div><p>No hay pedidos todavía.</p></div>
+  {% endif %}
+</div>
+
+{% if productos_activos == 0 %}
+<div class="alert alert-warning">
+  ⚠️ El catálogo está vacío. <a href="{% url 'admin_producto_nuevo' %}" style="color:inherit;font-weight:800">Agregá tu primer producto →</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Panel{% endblock %} — Frigo Chascomús</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--or:#E07B00;--or2:#F5A020;--br:#2C1A08;--br2:#4A2E10;--cr:#FBF5EC;--wh:#fff;--gy:#6B5E52;--gl:#D8CFC4;--bd:#EAE0D4;--tx:#1E140A;--gr:#27AE60;--bl:#2980B9;--rd:#C0392B;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:var(--cr);color:var(--tx);display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sb{width:230px;background:var(--br);border-right:3px solid var(--or);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50}
+.sb-logo{padding:22px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-logo-name{font-family:'Merriweather',serif;font-size:15px;color:var(--or2);font-weight:700}
+.sb-logo-sub{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase;margin-top:3px}
+.sb-section{padding:10px 0 4px 16px;font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:8px}
+.sb-nav{flex:1;overflow-y:auto;padding-bottom:16px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:13px;font-weight:700;color:rgba(255,255,255,.55);text-decoration:none;transition:all .2s;border-left:3px solid transparent}
+.sb-link:hover,.sb-link.active{color:var(--or2);background:rgba(224,123,0,.08);border-left-color:var(--or)}
+.sb-link .icon{font-size:16px;width:20px;text-align:center}
+.sb-badge{background:var(--or);color:white;font-size:10px;font-weight:800;padding:2px 7px;border-radius:10px;margin-left:auto}
+.sb-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:rgba(255,255,255,.3)}
+.sb-footer a{color:rgba(255,255,255,.45);text-decoration:none}
+.sb-footer a:hover{color:var(--or2)}
+.sb-user{font-weight:700;color:rgba(255,255,255,.5);margin-bottom:4px}
+
+/* MAIN */
+.main{margin-left:230px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--wh);border-bottom:1px solid var(--bd);padding:14px 32px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:40}
+.topbar-title{font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:var(--br)}
+.topbar-sep{color:var(--gl)}
+.topbar-sub{font-size:14px;color:var(--gy)}
+.content{padding:28px 32px;flex:1}
+
+/* ALERTS */
+.alert{padding:12px 18px;border-radius:6px;font-size:13px;font-weight:600;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.alert-success{background:#EAFAF1;border:1px solid #82E0AA;color:#1E7C3A}
+.alert-error{background:#FDECEA;border:1px solid #F1948A;color:var(--rd)}
+.alert-warning{background:#FFF3CD;border:1px solid #F5CBA7;color:#7D5400}
+
+/* CARDS */
+.card{background:var(--wh);border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-bottom:24px}
+.card-head{padding:16px 22px;border-bottom:1px solid var(--bd);font-family:'Merriweather',serif;font-size:16px;font-weight:700;color:var(--br);background:#F8F3EC;display:flex;align-items:center;justify-content:space-between}
+.card-head-actions{display:flex;gap:8px}
+.card-body{padding:22px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:5px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;text-decoration:none;border:none;transition:all .2s}
+.btn-primary{background:var(--or);color:white;box-shadow:0 2px 8px rgba(224,123,0,.3)}
+.btn-primary:hover{background:var(--or2)}
+.btn-dark{background:var(--br);color:white}
+.btn-dark:hover{background:var(--br2)}
+.btn-ghost{background:transparent;color:var(--gy);border:1px solid var(--bd)}
+.btn-ghost:hover{border-color:var(--or);color:var(--or)}
+.btn-danger{background:var(--rd);color:white}
+.btn-danger:hover{background:#A93226}
+.btn-success{background:var(--gr);color:white}
+.btn-success:hover{background:#229954}
+.btn-sm{padding:6px 12px;font-size:11px}
+
+/* FORMS */
+.form-group{margin-bottom:20px}
+.form-label{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gy);margin-bottom:7px}
+.form-label .req{color:var(--or)}
+.form-control{width:100%;padding:11px 14px;border:1.5px solid var(--bd);border-radius:5px;font-family:'Nunito',sans-serif;font-size:14px;color:var(--tx);background:var(--cr);outline:none;transition:border-color .2s}
+.form-control:focus{border-color:var(--or);background:var(--wh)}
+.form-hint{font-size:11px;color:var(--gy);margin-top:5px}
+.form-row{display:grid;gap:16px}
+.form-row-2{grid-template-columns:1fr 1fr}
+.form-row-3{grid-template-columns:1fr 1fr 1fr}
+.form-check{display:flex;align-items:center;gap:10px;cursor:pointer}
+.form-check input{width:18px;height:18px;accent-color:var(--or);cursor:pointer}
+.form-check-label{font-size:14px;font-weight:600;color:var(--tx)}
+
+/* TABLE */
+.table-wrap{border-radius:8px;overflow:hidden;border:1px solid var(--bd)}
+table{width:100%;border-collapse:collapse}
+thead th{background:#F8F3EC;padding:11px 14px;text-align:left;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gy);border-bottom:1px solid var(--bd);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--bd);transition:background .15s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#FDFAF5}
+tbody td{padding:13px 14px;font-size:13px;color:var(--br);vertical-align:middle}
+.td-actions{display:flex;gap:6px}
+
+/* BADGES */
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.badge-nuevo{background:#FEF3E2;color:var(--or);border:1px solid var(--or2)}
+.badge-contactado{background:#EBF5FB;color:var(--bl);border:1px solid #85C1E9}
+.badge-cerrado{background:#EAFAF1;color:var(--gr);border:1px solid #82E0AA}
+.badge-cancelado{background:#F2F3F4;color:#999;border:1px solid #CCC}
+.badge-active{background:#EAFAF1;color:var(--gr);border:1px solid #82E0AA}
+.badge-inactive{background:#F2F3F4;color:#999;border:1px solid #CCC}
+
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.stat-card{background:var(--wh);border:1px solid var(--bd);border-radius:8px;padding:20px;border-top:3px solid var(--bd)}
+.stat-card.orange{border-top-color:var(--or)}
+.stat-card.green{border-top-color:var(--gr)}
+.stat-card.blue{border-top-color:var(--bl)}
+.stat-card.red{border-top-color:var(--rd)}
+.stat-card.brown{border-top-color:var(--br)}
+.stat-num{font-family:'Merriweather',serif;font-size:36px;font-weight:700;color:var(--br);line-height:1}
+.stat-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gy);margin-top:6px}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-top:1px solid var(--bd)}
+.pag-info{font-size:13px;color:var(--gy)}
+.pag-links{display:flex;gap:4px}
+.pag-links a,.pag-links span{padding:5px 11px;border:1px solid var(--bd);border-radius:4px;font-size:13px;font-weight:700;text-decoration:none;color:var(--gy);transition:all .2s}
+.pag-links a:hover{border-color:var(--or);color:var(--or)}
+.pag-links .current{background:var(--or);border-color:var(--or);color:white}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:60px 20px;color:var(--gy)}
+.empty-icon{font-size:48px;margin-bottom:12px}
+</style>
+{% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<aside class="sb">
+  <div class="sb-logo">
+    <div class="sb-logo-name">🐄 Frigo Chascomús</div>
+    <div class="sb-logo-sub">Panel de gestión</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section">General</div>
+    <a href="{% url 'admin_dashboard' %}" class="sb-link {% block nav_dashboard %}{% endblock %}">
+      <span class="icon">📊</span> Dashboard
+    </a>
+
+    <div class="sb-section">Ventas</div>
+    <a href="{% url 'admin_pedidos' %}" class="sb-link {% block nav_pedidos %}{% endblock %}">
+      <span class="icon">🛒</span> Pedidos
+      {% if nuevos_count %}<span class="sb-badge">{{ nuevos_count }}</span>{% endif %}
+    </a>
+
+    <div class="sb-section">Catálogo</div>
+    <a href="{% url 'admin_productos' %}" class="sb-link {% block nav_productos %}{% endblock %}">
+      <span class="icon">🥩</span> Productos
+    </a>
+    <a href="{% url 'admin_categorias' %}" class="sb-link {% block nav_categorias %}{% endblock %}">
+      <span class="icon">🏷️</span> Categorías
+    </a>
+
+    <div class="sb-section">Sitio</div>
+    <a href="/" target="_blank" class="sb-link">
+      <span class="icon">🌐</span> Ver sitio web
+    </a>
+  </nav>
+  <div class="sb-footer">
+    <div class="sb-user">{{ request.user.get_full_name|default:request.user.username }}</div>
+    <a href="{% url 'admin_logout' %}">Cerrar sesión</a>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    {% block breadcrumb %}
+    <span class="topbar-title">Panel</span>
+    {% endblock %}
+  </div>
+
+  <div class="content">
+    {% for msg in messages %}
+    <div class="alert alert-{{ msg.tags|default:'success' }}">
+      {% if msg.tags == 'error' %}❌{% elif msg.tags == 'warning' %}⚠️{% else %}✅{% endif %}
+      {{ msg }}
+    </div>
+    {% endfor %}
+
+    {% block content %}{% endblock %}
+  </div>
+</div>
+
+</body>
+</html>

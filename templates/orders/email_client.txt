@@ -1,0 +1,13 @@
+Hola {{ order.customer_name }},
+
+Recibimos tu consulta de pedido en Frigo Chascomús. Un vendedor te va a contactar a la brevedad al {{ order.customer_phone }}.
+
+PRODUCTOS SOLICITADOS:
+{% for item in order.items %}- {{ item.name }} x{{ item.qty }} {{ item.unit }}
+{% endfor %}
+{% if order.notes %}Comentario: {{ order.notes }}{% endif %}
+
+Ante cualquier duda llamanos al 02241-430885.
+
+Frigo Chascomús — Microgauss S.A.
+Coronel Baigorria 2353, Chascomús, Buenos Aires

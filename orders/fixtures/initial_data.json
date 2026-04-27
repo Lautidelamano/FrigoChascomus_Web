@@ -1,0 +1,19 @@
+[
+  {"model":"orders.category","pk":1,"fields":{"name":"Media Res","slug":"media-res","order":1}},
+  {"model":"orders.category","pk":2,"fields":{"name":"Cortes sueltos","slug":"cortes-sueltos","order":2}},
+  {"model":"orders.category","pk":3,"fields":{"name":"Al Vacío","slug":"al-vacio","order":3}},
+  {"model":"orders.category","pk":4,"fields":{"name":"Menudencias","slug":"menudencias","order":4}},
+
+  {"model":"orders.product","pk":1,"fields":{"category":1,"name":"Media Res Vacuna","emoji":"🐄","description":"Novillo de 200–230 kg. Selección propia de hacienda local. Retiro en planta o flete pactado.","price_label":"Consultar","unit":"unidad","tag":"Mayorista","active":true,"order":1}},
+  {"model":"orders.product","pk":2,"fields":{"category":2,"name":"Asado de Tira","emoji":"🥩","description":"Costillas de primera calidad. Corte clásico para la parrilla argentina. Mínimo 5 kg.","price_label":"Consultar","unit":"kg","tag":"","active":true,"order":2}},
+  {"model":"orders.product","pk":3,"fields":{"category":2,"name":"Pecho","emoji":"🥩","description":"Ideal para puchero, hervidos y cocción lenta. Con o sin hueso según preferencia.","price_label":"Consultar","unit":"kg","tag":"","active":true,"order":3}},
+  {"model":"orders.product","pk":4,"fields":{"category":2,"name":"Mocho","emoji":"🍖","description":"Corte del cuarto trasero. Versátil para guisos, milanesas o asado. Poca grasa.","price_label":"Consultar","unit":"kg","tag":"","active":true,"order":4}},
+  {"model":"orders.product","pk":5,"fields":{"category":2,"name":"Cuadril","emoji":"🥩","description":"Tierno y sabroso. Excelente para bifes o entero a la parrilla. Alta demanda gastronómica.","price_label":"Consultar","unit":"kg","tag":"","active":true,"order":5}},
+  {"model":"orders.product","pk":6,"fields":{"category":2,"name":"Falda","emoji":"🍖","description":"Económica y sabrosa. Perfecta para puchero, guiso o hervido. Con y sin hueso.","price_label":"Consultar","unit":"kg","tag":"","active":true,"order":6}},
+  {"model":"orders.product","pk":7,"fields":{"category":2,"name":"Colita de Cuadril","emoji":"🥩","description":"Pieza entera de aprox. 1.5 kg. Ideal para hornear, brasear o parrilla rápida.","price_label":"Consultar","unit":"kg","tag":"","active":true,"order":7}},
+  {"model":"orders.product","pk":8,"fields":{"category":3,"name":"Peceto al Vacío","emoji":"📦","description":"Peceto entero sellado al vacío aprox. 2–3 kg. Shelf life 21 días refrigerado.","price_label":"Consultar","unit":"pieza","tag":"Al Vacío","active":true,"order":8}},
+  {"model":"orders.product","pk":9,"fields":{"category":3,"name":"Matambre al Vacío","emoji":"📦","description":"Matambre completo sellado aprox. 1.5–2 kg. Ideal para relleno, arrollado o parrilla.","price_label":"Consultar","unit":"pieza","tag":"Al Vacío","active":true,"order":9}},
+  {"model":"orders.product","pk":10,"fields":{"category":3,"name":"Paleta al Vacío","emoji":"📦","description":"Paleta desgrasada y sellada. Excelente para cocción lenta o guiso.","price_label":"Consultar","unit":"pieza","tag":"Al Vacío","active":true,"order":10}},
+  {"model":"orders.product","pk":11,"fields":{"category":4,"name":"Mondongo","emoji":"🫀","description":"Limpio y listo para hervir. Ideal para el clásico guiso. Venta por kg.","price_label":"Consultar","unit":"kg","tag":"","active":true,"order":11}},
+  {"model":"orders.product","pk":12,"fields":{"category":4,"name":"Riñón","emoji":"🫀","description":"Al vacío de a 1 kg. Sabor intenso, muy valorado en cocinas profesionales.","price_label":"Consultar","unit":"kg","tag":"","active":true,"order":12}}
+]

@@ -1,0 +1,31 @@
+{% extends "admin/base.html" %}
+{% block title %}Confirmar eliminación{% endblock %}
+{% block breadcrumb %}
+  <a href="{{ back_url }}" class="btn btn-ghost btn-sm">← Volver</a>
+  <span class="topbar-sep">›</span>
+  <span class="topbar-title">Confirmar eliminación</span>
+{% endblock %}
+
+{% block content %}
+<div style="max-width:480px">
+  <div class="card">
+    <div class="card-head" style="background:#FDECEA;color:#B22222">⚠️ Confirmar eliminación</div>
+    <div class="card-body">
+      <p style="font-size:16px;font-weight:700;margin-bottom:12px">¿Estás seguro que querés eliminar?</p>
+      <p style="font-size:15px;color:#2C1A08;background:#FDF0DC;padding:12px 16px;border-radius:4px;border-left:4px solid #E07B00;margin-bottom:16px">
+        {{ titulo }}
+      </p>
+      {% if warning %}
+      <div class="alert alert-warning">⚠️ {{ warning }}</div>
+      {% endif %}
+      <p style="font-size:13px;color:#6B5E52">Esta acción no se puede deshacer.</p>
+    </div>
+  </div>
+  <div style="display:flex;gap:12px">
+    <form method="post">{% csrf_token %}
+      <button type="submit" class="btn btn-danger">🗑 Sí, eliminar definitivamente</button>
+    </form>
+    <a href="{{ back_url }}" class="btn btn-ghost">Cancelar</a>
+  </div>
+</div>
+{% endblock %}

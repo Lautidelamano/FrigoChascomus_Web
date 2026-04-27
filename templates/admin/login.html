@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingresar — Frigo Chascomús</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:#2C1A08;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.wrap{width:100%;max-width:380px}
+.card{background:white;border-radius:10px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.card-head{background:#2C1A08;padding:30px 32px;border-bottom:4px solid #E07B00;text-align:center}
+.card-head h1{font-family:'Merriweather',serif;font-size:20px;color:#F5A020;margin-bottom:4px}
+.card-head p{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.12em;text-transform:uppercase}
+.card-body{padding:28px 32px}
+.form-group{margin-bottom:18px}
+label{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6B5E52;margin-bottom:7px}
+input{width:100%;padding:12px 14px;border:1.5px solid #EAE0D4;border-radius:5px;font-family:'Nunito',sans-serif;font-size:14px;outline:none;transition:border-color .2s;background:#FBF5EC}
+input:focus{border-color:#E07B00;background:white}
+.btn{width:100%;background:#E07B00;color:white;border:none;padding:14px;border-radius:5px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .2s;margin-top:8px}
+.btn:hover{background:#F5A020}
+.error{background:#FEE;border:1px solid #FCC;border-radius:5px;padding:10px 14px;font-size:13px;color:#C00;margin-bottom:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="card-head">
+      <h1>🐄 Frigo Chascomús</h1>
+      <p>Panel de gestión</p>
+    </div>
+    <div class="card-body">
+      {% if messages %}{% for m in messages %}<div class="error">{{ m }}</div>{% endfor %}{% endif %}
+      <form method="post">{% csrf_token %}
+        <div class="form-group">
+          <label>Usuario</label>
+          <input type="text" name="username" autofocus autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" name="password" autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn">Ingresar →</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

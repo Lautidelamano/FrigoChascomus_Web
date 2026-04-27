@@ -1,0 +1,70 @@
+{% extends "admin/base.html" %}
+{% block title %}Pedidos{% endblock %}
+{% block nav_pedidos %}active{% endblock %}
+{% block breadcrumb %}<span class="topbar-title">Pedidos</span>{% endblock %}
+
+{% block content %}
+<div class="stat-grid">
+  <div class="stat-card orange"><div class="stat-num">{{ counts.nuevo }}</div><div class="stat-lbl">Nuevos</div></div>
+  <div class="stat-card blue"><div class="stat-num">{{ counts.contactado }}</div><div class="stat-lbl">Contactados</div></div>
+  <div class="stat-card green"><div class="stat-num">{{ counts.cerrado }}</div><div class="stat-lbl">Cerrados</div></div>
+  <div class="stat-card brown"><div class="stat-num">{{ counts.todos }}</div><div class="stat-lbl">Total</div></div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    Todos los pedidos
+    <form method="get" style="display:flex;gap:8px;margin-left:auto">
+      {% if status_filter %}<input type="hidden" name="status" value="{{ status_filter }}">{% endif %}
+      <input type="text" name="q" value="{{ search }}" placeholder="Buscar cliente, teléfono…"
+             style="padding:7px 12px;border:1px solid #EAE0D4;border-radius:5px;font-family:'Nunito',sans-serif;font-size:13px;width:220px;outline:none">
+      <button type="submit" class="btn btn-dark btn-sm">Buscar</button>
+    </form>
+  </div>
+
+  <!-- Filtros de estado -->
+  <div style="padding:12px 18px;border-bottom:1px solid #EAE0D4;display:flex;gap:8px;flex-wrap:wrap">
+    <a href="{% url 'admin_pedidos' %}{% if search %}?q={{ search }}{% endif %}"
+       class="btn btn-sm {% if not status_filter %}btn-primary{% else %}btn-ghost{% endif %}">Todos</a>
+    {% for val, label in status_choices %}
+    <a href="?status={{ val }}{% if search %}&q={{ search }}{% endif %}"
+       class="btn btn-sm {% if status_filter == val %}btn-primary{% else %}btn-ghost{% endif %}">{{ label }}</a>
+    {% endfor %}
+  </div>
+
+  {% if page.object_list %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Cliente</th><th>Teléfono</th><th>Zona</th><th>Productos</th><th>Estado</th><th>Fecha</th><th></th></tr></thead>
+      <tbody>
+        {% for o in page.object_list %}
+        <tr>
+          <td><strong>{{ o.customer_name }}</strong><br><small style="color:#6B5E52">{{ o.customer_email }}</small></td>
+          <td style="color:#E07B00;font-weight:700">{{ o.customer_phone }}</td>
+          <td style="color:#6B5E52">{{ o.customer_zone|default:"—" }}</td>
+          <td style="color:#6B5E52;font-size:12px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{{ o.items_summary }}">{{ o.items_summary }}</td>
+          <td><span class="badge badge-{{ o.status }}">{{ o.get_status_display }}</span></td>
+          <td style="color:#6B5E52;font-size:12px;white-space:nowrap">{{ o.created_at|date:"d/m H:i" }}</td>
+          <td class="td-actions">
+            <a href="{% url 'admin_pedido_detail' o.id %}" class="btn btn-dark btn-sm">Ver →</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if page.paginator.num_pages > 1 %}
+  <div class="pagination">
+    <div class="pag-info">{{ page.paginator.count }} pedidos · Pág. {{ page.number }}/{{ page.paginator.num_pages }}</div>
+    <div class="pag-links">
+      {% if page.has_previous %}<a href="?page={{ page.previous_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search %}&q={{ search }}{% endif %}">←</a>{% endif %}
+      <span class="current">{{ page.number }}</span>
+      {% if page.has_next %}<a href="?page={{ page.next_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if search %}&q={{ search }}{% endif %}">→</a>{% endif %}
+    </div>
+  </div>
+  {% endif %}
+  {% else %}
+  <div class="empty-state"><div class="empty-icon">📭</div><p>No hay pedidos{% if status_filter %} con ese estado{% endif %}{% if search %} para "{{ search }}"{% endif %}.</p></div>
+  {% endif %}
+</div>
+{% endblock %}
