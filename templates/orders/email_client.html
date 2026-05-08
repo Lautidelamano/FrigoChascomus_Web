@@ -12,7 +12,7 @@
     <div style="background:#FDF0DC;border-left:4px solid #E07B00;border-radius:4px;padding:18px 22px;margin-bottom:24px">
       <div style="font-size:11px;font-weight:bold;letter-spacing:.12em;text-transform:uppercase;color:#7A5030;margin-bottom:12px">📋 Productos solicitados</div>
       {% for item in order.items %}
-      <div style="font-size:14px;color:#2C1A08;margin-bottom:8px">{{ item.emoji }} <strong>{{ item.name }}</strong> — {{ item.qty }} {{ item.unit }}</div>
+      <div style="font-size:14px;color:#2C1A08;margin-bottom:8px">{{ item.emoji }} <strong>{{ item.name }}</strong> — {{ item.qty }} {% if item.qty > 1 %} unidades {% else %} unidad {% endif %}</div>
       {% endfor %}
     </div>
     {% if order.notes %}<div style="background:#F8F3EC;border-radius:4px;padding:14px 18px;margin-bottom:24px;font-size:13px;color:#4A2E10;font-style:italic">"{{ order.notes }}"</div>{% endif %}

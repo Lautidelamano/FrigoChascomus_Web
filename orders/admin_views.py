@@ -44,13 +44,13 @@ def admin_logout(request):
 @staff_required
 def admin_dashboard(request):
     ctx = {
-        'total_pedidos':   Order.objects.count(),
-        'nuevos':          Order.objects.filter(status='nuevo').count(),
-        'contactados':     Order.objects.filter(status='contactado').count(),
-        'cerrados':        Order.objects.filter(status='cerrado').count(),
-        'total_productos': Product.objects.count(),
+        'total_pedidos':     Order.objects.count(),
+        'nuevos':            Order.objects.filter(status='nuevo').count(),
+        'contactados':       Order.objects.filter(status='contactado').count(),
+        'cerrados':          Order.objects.filter(status='cerrado').count(),
+        'total_productos':   Product.objects.count(),
         'productos_activos': Product.objects.filter(active=True).count(),
-        'total_categorias': Category.objects.count(),
+        'total_categorias':  Category.objects.count(),
         'pedidos_recientes': Order.objects.all()[:8],
     }
     return render(request, 'admin/dashboard.html', ctx)
@@ -75,14 +75,14 @@ def admin_pedidos(request):
     return render(request, 'admin/pedidos.html', {
         'page': page,
         'counts': {
-            'todos': Order.objects.count(),
-            'nuevo': Order.objects.filter(status='nuevo').count(),
+            'todos':      Order.objects.count(),
+            'nuevo':      Order.objects.filter(status='nuevo').count(),
             'contactado': Order.objects.filter(status='contactado').count(),
-            'cerrado': Order.objects.filter(status='cerrado').count(),
-            'cancelado': Order.objects.filter(status='cancelado').count(),
+            'cerrado':    Order.objects.filter(status='cerrado').count(),
+            'cancelado':  Order.objects.filter(status='cancelado').count(),
         },
         'status_filter': status_filter,
-        'search': search,
+        'search':        search,
         'status_choices': Order.Status.choices,
     })
 
@@ -105,7 +105,7 @@ def admin_pedido_detail(request, order_id):
             messages.success(request, 'Notas guardadas.')
         return redirect('admin_pedido_detail', order_id=order_id)
     return render(request, 'admin/pedido_detail.html', {
-        'order': order,
+        'order':          order,
         'status_choices': Order.Status.choices,
     })
 
@@ -130,7 +130,7 @@ def admin_productos(request):
         'page':       Paginator(qs, 30).get_page(request.GET.get('page', 1)),
         'categories': Category.objects.all(),
         'search': search, 'cat_filter': cat_filter, 'act_filter': act_filter,
-        'total': Product.objects.count(),
+        'total':   Product.objects.count(),
         'activos': Product.objects.filter(active=True).count(),
     })
 
@@ -158,6 +158,14 @@ def admin_producto_form(request, pk=None):
             product.order       = int(request.POST.get('order', 0) or 0)
             cat_id              = request.POST.get('category', '')
             product.category    = Category.objects.filter(pk=cat_id).first() if cat_id else None
+
+            # ── Imagen ────────────────────────────────────────────────────────
+            if request.FILES.get('image'):
+                product.image = request.FILES['image']
+            elif request.POST.get('remove_image') == '1':
+                # El usuario tildó "eliminar imagen actual"
+                product.image = None
+
             product.save()
             verb = 'creado' if is_new else 'actualizado'
             messages.success(request, f'Producto "{product.name}" {verb} correctamente.')
@@ -186,8 +194,8 @@ def admin_producto_delete(request, pk):
         messages.success(request, f'{nombre} eliminado.')
         return redirect('admin_productos')
     return render(request, 'admin/confirm_delete.html', {
-        'object': product,
-        'titulo': f'Eliminar producto: {product}',
+        'object':   product,
+        'titulo':   f'Eliminar producto: {product}',
         'back_url': '/admin/productos/',
     })
 
@@ -237,8 +245,8 @@ def admin_categoria_delete(request, pk):
         messages.success(request, f'Categoría "{nombre}" eliminada.')
         return redirect('admin_categorias')
     return render(request, 'admin/confirm_delete.html', {
-        'object': cat,
-        'titulo': f'Eliminar categoría: {cat.name}',
+        'object':   cat,
+        'titulo':   f'Eliminar categoría: {cat.name}',
         'back_url': '/admin/categorias/',
-        'warning': f'Se va a desasignar la categoría de {cat.products.count()} productos.',
+        'warning':  f'Se va a desasignar la categoría de {cat.products.count()} productos.',
     })

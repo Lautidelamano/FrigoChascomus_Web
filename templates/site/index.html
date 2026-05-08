@@ -10,8 +10,6 @@
 :root{--or:#E07B00;--or2:#F5A020;--op:#FDF0DC;--br:#2C1A08;--bm:#4A2E10;--cr:#FBF5EC;--wh:#fff;--gy:#6B5E52;--gl:#D8CFC4;--bd:#EAE0D4;--tx:#1E140A}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
 body{font-family:'Nunito Sans',sans-serif;background:var(--cr);color:var(--tx);overflow-x:hidden}
-
-/* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;height:70px;background:var(--br);border-bottom:3px solid var(--or);display:flex;align-items:center;justify-content:space-between;padding:0 40px;box-shadow:0 2px 20px rgba(0,0,0,.4)}
 .nav-brand{display:flex;align-items:center;gap:14px;text-decoration:none}
 .nav-logo{width:46px;height:46px;background:var(--or);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;border:2px solid var(--or2)}
@@ -23,8 +21,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:70px;background:var(-
 .nav-cart{display:flex;align-items:center;gap:8px;background:var(--or);border:none;color:white;padding:10px 22px;border-radius:4px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .2s}
 .nav-cart:hover{background:var(--or2)}
 .cart-badge{background:var(--br);color:var(--or2);font-size:11px;font-weight:800;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--or2)}
-
-/* ── HERO ── */
 .hero{min-height:100vh;background:var(--br);display:grid;grid-template-columns:55% 45%;position:relative;overflow:hidden}
 .hero-rbg{position:absolute;top:0;right:0;bottom:0;width:50%;background:linear-gradient(160deg,#3D1F08 0%,var(--bm) 60%,#5A2E0A 100%);z-index:0}
 .hero-rbg::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 40% 50%,rgba(224,123,0,.18) 0%,transparent 60%)}
@@ -48,8 +44,6 @@ h1 .or{color:var(--or2)} h1 .it{font-style:italic}
 @keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .hero-chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(224,123,0,.35);border-radius:40px;padding:8px 18px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:600;color:rgba(255,248,240,.7)}
 .hero-chip b{color:var(--or2)}
-
-/* ── ABOUT ── */
 .about{background:var(--wh);padding:96px 48px}
 .about-in{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 .sec-ey{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;letter-spacing:.28em;text-transform:uppercase;color:var(--or);margin-bottom:16px;display:flex;align-items:center;gap:10px}
@@ -65,8 +59,6 @@ h2.about em{font-style:italic;color:var(--or)}
 .ac:nth-child(2),.ac:nth-child(4){transform:translateY(14px)}
 .acn{font-family:'Merriweather',serif;font-size:42px;font-weight:700;color:var(--or2);line-height:1}
 .acl{font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-top:6px}
-
-/* ── CATALOG ── */
 #catalogo{background:var(--cr);padding:96px 48px}
 .sec-title{text-align:center;font-family:'Merriweather',serif;font-size:clamp(32px,4vw,50px);font-weight:700;color:var(--br);line-height:1.15;margin-bottom:12px}
 .sec-title em{font-style:italic;color:var(--or)}
@@ -80,8 +72,29 @@ h2.about em{font-style:italic;color:var(--or)}
 .pcard{background:white;border:1px solid var(--bd);border-radius:8px;overflow:hidden;transition:transform .22s,box-shadow .22s}
 .pcard:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(44,26,8,.12)}
 .pcard.hidden{display:none}
-.pimg{height:190px;background:var(--op);display:flex;align-items:center;justify-content:center;font-size:76px;position:relative}
-.ptag{position:absolute;top:12px;left:0;background:var(--or);color:white;font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:0 4px 4px 0}
+
+/* ── IMAGEN DEL PRODUCTO ─────────────────────────────────────────────────── */
+.pimg{
+  height:190px;
+  background:var(--op);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:76px;
+  position:relative;
+  overflow:hidden;        /* recorta la imagen si es más grande */
+}
+/* La imagen real ocupa todo el espacio con recorte inteligente */
+.pimg img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+/* Etiqueta naranja sobre la imagen */
+.ptag{position:absolute;top:12px;left:0;background:var(--or);color:white;font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:0 4px 4px 0;z-index:1}
+
 .pbody{padding:18px 20px 22px}
 .pcat{font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--or);margin-bottom:5px}
 .pname{font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:var(--br);margin-bottom:7px;line-height:1.25}
@@ -91,8 +104,6 @@ h2.about em{font-style:italic;color:var(--or)}
 .pprice span{font-size:12px;font-weight:400;color:var(--gy);margin-left:3px}
 .abtn{background:var(--br);color:white;border:none;padding:9px 16px;border-radius:4px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .2s}
 .abtn:hover{background:var(--or)}
-
-/* ── PROCESS ── */
 .process{background:var(--br);padding:96px 48px}
 .process .sec-title{color:#FFF8F0}.process .sec-desc{color:rgba(255,248,240,.45)}
 .psteps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:960px;margin:0 auto;position:relative}
@@ -101,8 +112,6 @@ h2.about em{font-style:italic;color:var(--or)}
 .pcirc{width:68px;height:68px;background:var(--or);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 22px;font-family:'Merriweather',serif;font-size:26px;font-weight:700;color:white;position:relative;z-index:1;box-shadow:0 0 0 6px rgba(224,123,0,.2)}
 .ptitle{font-family:'Merriweather',serif;font-size:16px;font-weight:700;color:#FFF8F0;margin-bottom:10px}
 .pdescr{font-size:13px;font-weight:300;color:rgba(255,248,240,.45);line-height:1.6}
-
-/* ── CONTACT ── */
 #contacto{background:white;padding:96px 48px}
 .contact-in{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
 h2.contact{font-family:'Merriweather',serif;font-size:36px;font-weight:700;color:var(--br);margin-bottom:14px;line-height:1.2}
@@ -114,16 +123,12 @@ h2.contact em{font-style:italic;color:var(--or)}
 .cform{display:flex;flex-direction:column;gap:14px}
 .finput{width:100%;padding:13px 16px;border:1px solid var(--bd);background:var(--cr);font-family:'Nunito Sans',sans-serif;font-size:14px;color:var(--tx);border-radius:4px;outline:none;transition:border-color .2s}
 .finput:focus{border-color:var(--or);background:white}
-
-/* ── FOOTER ── */
 footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px solid var(--or)}
 .ftbrand{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px}
 .ftcirc{width:44px;height:44px;background:var(--or);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
 .ftname{font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:var(--or2)}
 .ftlegal{font-size:12px;font-weight:300;color:rgba(255,255,255,.3);line-height:1.9}
 .ftlegal strong{color:rgba(255,255,255,.5)}
-
-/* ── CART ── */
 .cart-ov{position:fixed;inset:0;background:rgba(28,20,10,.65);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(2px)}
 .cart-ov.open{opacity:1;pointer-events:all}
 .cart-pan{position:fixed;top:0;right:0;bottom:0;width:420px;background:var(--cr);z-index:201;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-6px 0 40px rgba(0,0,0,.25)}
@@ -136,7 +141,8 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
 .cart-empty{text-align:center;padding:60px 20px;color:var(--gy)}
 .cei{font-size:48px;margin-bottom:12px}
 .cart-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd)}
-.ci-em{font-size:34px;width:50px;height:50px;background:var(--op);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ci-em{font-size:34px;width:50px;height:50px;background:var(--op);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.ci-em img{width:100%;height:100%;object-fit:cover}
 .ci-info{flex:1}
 .ci-name{font-family:'Merriweather',serif;font-size:14px;font-weight:700;color:var(--br)}
 .ci-price{font-size:12px;color:var(--gy);margin-top:2px}
@@ -153,8 +159,6 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
 .ct-note{font-size:11px;color:#B0A090;margin-bottom:14px;text-align:right}
 .checkout-btn{width:100%;background:var(--or);color:white;border:none;padding:16px;border-radius:4px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;margin-top:10px;transition:background .2s;box-shadow:0 4px 16px rgba(224,123,0,.35)}
 .checkout-btn:hover{background:var(--or2)}
-
-/* ── MODAL ── */
 .modal-ov{position:fixed;inset:0;background:rgba(28,20,10,.75);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px)}
 .modal-ov.open{opacity:1;pointer-events:all}
 .modal{background:white;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;border-radius:8px;transform:scale(.95) translateY(12px);transition:transform .3s;box-shadow:0 24px 80px rgba(0,0,0,.4)}
@@ -178,14 +182,10 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
 .success-circ{width:76px;height:76px;background:#F0FAF0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 20px;border:2px solid #8BC88B}
 .success-st h3{font-family:'Merriweather',serif;font-size:24px;color:var(--br);margin-bottom:12px}
 .success-st p{font-size:14px;color:var(--gy);line-height:1.7}
-
-/* ── TOAST ── */
 .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--br);color:#FFF8F0;padding:12px 26px;border-radius:40px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;z-index:999;border:2px solid var(--or);box-shadow:0 8px 32px rgba(0,0,0,.3);transition:transform .35s cubic-bezier(.4,0,.2,1);white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
-
 @keyframes fiu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .hero-ey{animation:fiu .5s .1s both}.hero-left h1{animation:fiu .6s .2s both}.hero-tag{animation:fiu .6s .35s both}.hero-ctas{animation:fiu .6s .5s both}.hero-stats{animation:fiu .6s .65s both}.hero-right{animation:fiu .8s .3s both}
-
 @media(max-width:900px){
   nav{padding:0 18px}.nav-links{display:none}
   .hero{grid-template-columns:1fr}.hero-rbg,.hero-accent,.hero-right{display:none}
@@ -200,7 +200,6 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="#" class="nav-brand">
     <div class="nav-logo">🐄</div>
@@ -215,7 +214,6 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
   <button class="nav-cart" onclick="toggleCart()">🛒 Mi Pedido <div class="cart-badge" id="cartBadge">0</div></button>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-rbg"></div><div class="hero-accent"></div>
   <div class="hero-left">
@@ -240,7 +238,6 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
   </div>
 </section>
 
-<!-- ABOUT -->
 <section class="about" id="nosotros">
   <div class="about-in">
     <div>
@@ -265,33 +262,44 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
   </div>
 </section>
 
-<!-- CATÁLOGO DINÁMICO -->
 <section id="catalogo">
   <div class="sec-eyc">Nuestros Productos</div>
   <h2 class="sec-title">El <em>catálogo</em> completo</h2>
   <p class="sec-desc">Cortes sueltos, media res y productos al vacío. Los precios se confirman con el vendedor según volumen y fecha.</p>
-
   <div class="filters">
     <button class="fbtn active" onclick="filterCat('todos',this)">Todos</button>
     {% for cat in categories %}
     <button class="fbtn" onclick="filterCat('{{ cat.slug }}',this)">{{ cat.name }}</button>
     {% endfor %}
   </div>
-
   <div class="grid" id="grid">
     {% for p in products %}
     <div class="pcard" data-cat="{{ p.category.slug|default:'otros' }}">
+
+      <!-- ── IMAGEN O EMOJI ── -->
       <div class="pimg">
-        {{ p.emoji }}
+        {% if p.image %}
+          <img src="{{ p.image.url }}" alt="{{ p.name }}">
+        {% else %}
+          {{ p.emoji }}
+        {% endif %}
         {% if p.tag %}<div class="ptag">{{ p.tag }}</div>{% endif %}
       </div>
+
       <div class="pbody">
         <div class="pcat">{{ p.category.name|default:"General" }}</div>
         <div class="pname">{{ p.name }}</div>
         <div class="pdesc">{{ p.description }}</div>
         <div class="pfoot">
           <div class="pprice">{{ p.price_label }}<span>/ {{ p.unit }}</span></div>
-          <button class="abtn" onclick="addToCart({id:{{ p.pk }},name:'{{ p.name|escapejs }}',emoji:'{{ p.emoji }}',price:'{{ p.price_label|escapejs }}',unit:'{{ p.unit|escapejs }}'})">+ Agregar</button>
+          <button class="abtn" onclick="addToCart({
+            id:{{ p.pk }},
+            name:'{{ p.name|escapejs }}',
+            emoji:'{{ p.emoji }}',
+            {% if p.image %}imgUrl:'{{ p.image.url }}',{% endif %}
+            price:'{{ p.price_label|escapejs }}',
+            unit:'{{ p.unit|escapejs }}'
+          })">+ Agregar</button>
         </div>
       </div>
     </div>
@@ -304,7 +312,6 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
   </div>
 </section>
 
-<!-- CÓMO FUNCIONA -->
 <section class="process" id="como-funciona">
   <div class="sec-eyc" style="color:var(--or)">Sin pagos online</div>
   <h2 class="sec-title">¿Cómo <em>hacemos</em> el pedido?</h2>
@@ -318,7 +325,6 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
   </div>
 </section>
 
-<!-- CONTACTO -->
 <section id="contacto">
   <div class="sec-eyc">Encontranos</div>
   <h2 class="sec-title" style="margin-bottom:48px">Contacto y <em>ubicación</em></h2>
@@ -330,7 +336,7 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
         <div class="citem"><div class="cicon">📍</div><div>Coronel Baigorria 2353, Chascomús, Buenos Aires</div></div>
         <div class="citem"><div class="cicon">📞</div><div>02241 – 430885</div></div>
         <div class="citem"><div class="cicon">🏢</div><div>Microgauss S.A.</div></div>
-        <div class="citem"><div class="cicon">🕐</div><div>Lunes a Viernes 6:00–14:00 · Sábados 6:00–11:00</div></div>
+        <div class="citem"><div class="cicon">🕐</div><div>Lunes a Viernes 8:00–17:00 · Sábados 8:00–13:00</div></div>
       </div>
     </div>
     <div>
@@ -346,7 +352,6 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="ftbrand"><div class="ftcirc">🐄</div><div class="ftname">Frigo Chascomús</div></div>
   <div class="ftlegal">
@@ -356,12 +361,14 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
   </div>
 </footer>
 
-<!-- CART PANEL -->
 <div class="cart-ov" id="cartOv" onclick="toggleCart()"></div>
 <div class="cart-pan" id="cartPan">
   <div class="cart-hd"><h3>🛒 Mi Pedido</h3><button class="cart-x" onclick="toggleCart()">✕</button></div>
   <div class="cart-items" id="cartItems">
-    <div class="cart-empty" id="cartEmpty"><div class="cei">🛒</div><p style="font-size:14px;font-weight:300;line-height:1.6">Todavía no agregaste productos.<br>Explorá el catálogo.</p></div>
+    <div class="cart-empty" id="cartEmpty">
+      <div class="cei">🛒</div>
+      <p style="font-size:14px;font-weight:300;line-height:1.6">Todavía no agregaste productos.<br>Explorá el catálogo.</p>
+    </div>
   </div>
   <div class="cart-ft">
     <div class="ct-row"><div class="ct-lbl">Total estimado</div><div class="ct-val" id="cartTotal">—</div></div>
@@ -370,7 +377,6 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
   </div>
 </div>
 
-<!-- ORDER MODAL -->
 <div class="modal-ov" id="orderModal">
   <div class="modal">
     <div class="modal-hd">
@@ -421,16 +427,36 @@ function changeQty(id, d) {
 }
 
 function renderCart() {
-  const el = document.getElementById('cartItems');
-  const em = document.getElementById('cartEmpty');
+  const el    = document.getElementById('cartItems');
+  const em    = document.getElementById('cartEmpty');
   const badge = document.getElementById('cartBadge');
   badge.textContent = cart.reduce((s,i) => s + i.qty, 0);
   el.querySelectorAll('.cart-item').forEach(e => e.remove());
-  if (!cart.length) { em.style.display='block'; document.getElementById('cartTotal').textContent='—'; return; }
+  if (!cart.length) {
+    em.style.display = 'block';
+    document.getElementById('cartTotal').textContent = '—';
+    return;
+  }
   em.style.display = 'none';
   cart.forEach(it => {
-    const d = document.createElement('div'); d.className = 'cart-item';
-    d.innerHTML = `<div class="ci-em">${it.emoji}</div><div class="ci-info"><div class="ci-name">${it.name}</div><div class="ci-price">${it.price} · por ${it.unit}</div></div><div class="ci-qty"><button class="qbtn" onclick="changeQty(${it.id},-1)">−</button><span class="qnum">${it.qty}</span><button class="qbtn" onclick="changeQty(${it.id},+1)">+</button></div><button class="ci-del" onclick="removeFromCart(${it.id})">🗑</button>`;
+    const d = document.createElement('div');
+    d.className = 'cart-item';
+    // Thumbnail: imagen real si existe, sino emoji
+    const thumb = it.imgUrl
+      ? `<img src="${it.imgUrl}" style="width:100%;height:100%;object-fit:cover">`
+      : it.emoji;
+    d.innerHTML = `
+      <div class="ci-em">${thumb}</div>
+      <div class="ci-info">
+        <div class="ci-name">${it.name}</div>
+        <div class="ci-price">${it.price} · por ${it.unit}</div>
+      </div>
+      <div class="ci-qty">
+        <button class="qbtn" onclick="changeQty(${it.id},-1)">−</button>
+        <span class="qnum">${it.qty}</span>
+        <button class="qbtn" onclick="changeQty(${it.id},+1)">+</button>
+      </div>
+      <button class="ci-del" onclick="removeFromCart(${it.id})">🗑</button>`;
     el.insertBefore(d, em);
   });
   document.getElementById('cartTotal').textContent = 'Ver con vendedor';
@@ -446,7 +472,8 @@ function openModal() {
   const s = document.getElementById('mSummary');
   s.innerHTML = '<div class="os-title">📋 Resumen del pedido</div>';
   cart.forEach(it => {
-    const r = document.createElement('div'); r.className = 'os-item';
+    const r = document.createElement('div');
+    r.className = 'os-item';
     r.innerHTML = `<span>${it.emoji} ${it.name} × ${it.qty} ${it.unit}</span><span>Consultar precio</span>`;
     s.appendChild(r);
   });
@@ -467,7 +494,7 @@ async function submitOrder() {
   try {
     const res = await fetch('/api/orders/', {
       method: 'POST',
-      headers: {'Content-Type':'application/json','X-CSRFToken': CSRF},
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
       body: JSON.stringify({
         customer_name:  name,
         customer_phone: phone,

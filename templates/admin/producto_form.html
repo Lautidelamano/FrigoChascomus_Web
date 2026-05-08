@@ -9,41 +9,77 @@
 
 {% block content %}
 <div style="max-width:700px">
-<form method="post">{% csrf_token %}
+<!-- enctype obligatorio para subir archivos -->
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
 <div class="card">
   <div class="card-head">{% if is_new %}➕ Nuevo producto{% else %}✏️ Editar: {{ product }}{% endif %}</div>
   <div class="card-body">
 
-    <div class="form-row form-row-2">
-      <div class="form-group" style="grid-column:1/-1">
-        <label class="form-label">Nombre del producto <span class="req">*</span></label>
-        <input type="text" name="name" class="form-control" value="{{ product.name|default:'' }}"
-               placeholder="Ej: Asado de Tira, Peceto al Vacío…" required autofocus>
-      </div>
+    <!-- Nombre -->
+    <div class="form-group">
+      <label class="form-label">Nombre del producto <span class="req">*</span></label>
+      <input type="text" name="name" class="form-control"
+             value="{{ product.name|default:'' }}"
+             placeholder="Ej: Asado de Tira, Peceto al Vacío…" required autofocus>
     </div>
 
     <div class="form-row form-row-2">
+
+      <!-- Imagen -->
       <div class="form-group">
-        <label class="form-label">Emoji</label>
-        <input type="text" name="emoji" class="form-control" value="{{ product.emoji|default:'🥩' }}"
-               placeholder="🥩" style="font-size:24px;text-align:center">
-        <div class="form-hint">Hacé clic en el campo y usá el selector de emojis del sistema (Windows+. / Cmd+Ctrl+Espacio)</div>
+        <label class="form-label">Imagen del producto</label>
+
+        {% if product.image %}
+        <!-- Preview de la imagen actual -->
+        <div style="margin-bottom:10px">
+          <img src="{{ product.image.url }}"
+               style="height:120px;width:100%;object-fit:cover;border-radius:6px;border:1px solid #EAE0D4;display:block">
+          <label style="display:flex;align-items:center;gap:6px;margin-top:8px;cursor:pointer;font-size:13px;color:#C0392B">
+            <input type="checkbox" name="remove_image" value="1">
+            Eliminar imagen actual
+          </label>
+        </div>
+        <div style="font-size:11px;color:#6B5E52;margin-bottom:6px">Subir nueva imagen reemplazará la actual</div>
+        {% endif %}
+
+        <input type="file" name="image" class="form-control" accept="image/*"
+               onchange="previewImage(this)">
+        <!-- Preview de imagen nueva antes de guardar -->
+        <img id="img-preview" src="#" alt="Preview"
+             style="display:none;height:120px;width:100%;object-fit:cover;border-radius:6px;margin-top:8px;border:1px solid #E07B00">
+        <div class="form-hint">JPG o PNG. Recomendado: 600×400 px. Si no subís imagen se muestra el emoji.</div>
       </div>
+
+      <!-- Emoji (fallback) -->
       <div class="form-group">
-        <label class="form-label">Categoría</label>
-        <select name="category" class="form-control">
-          <option value="">Sin categoría</option>
-          {% for cat in categories %}
-          <option value="{{ cat.pk }}" {% if product.category_id == cat.pk %}selected{% endif %}>{{ cat.name }}</option>
-          {% endfor %}
-        </select>
+        <label class="form-label">Emoji (fallback)</label>
+        <input type="text" name="emoji" class="form-control"
+               value="{{ product.emoji|default:'🥩' }}"
+               placeholder="🥩" style="font-size:28px;text-align:center">
+        <div class="form-hint">Se muestra solo si el producto no tiene imagen. Usá Windows+. o Cmd+Ctrl+Espacio para abrir el selector.</div>
       </div>
+
     </div>
 
+    <!-- Categoría -->
+    <div class="form-group">
+      <label class="form-label">Categoría</label>
+      <select name="category" class="form-control">
+        <option value="">Sin categoría</option>
+        {% for cat in categories %}
+        <option value="{{ cat.pk }}"
+          {% if product.category_id == cat.pk %}selected{% endif %}>
+          {{ cat.name }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Descripción -->
     <div class="form-group">
       <label class="form-label">Descripción</label>
       <textarea name="description" class="form-control" rows="3"
-                placeholder="Descripción del producto, forma de preparación, características…">{{ product.description|default:'' }}</textarea>
+                placeholder="Descripción, forma de preparación, características…">{{ product.description|default:'' }}</textarea>
     </div>
 
     <div class="form-row form-row-3">
@@ -51,8 +87,8 @@
         <label class="form-label">Precio / Etiqueta</label>
         <input type="text" name="price_label" class="form-control"
                value="{{ product.price_label|default:'Consultar' }}"
-               placeholder="Consultar, $6.800, Mayorista…">
-        <div class="form-hint">Se muestra en la tarjeta del producto</div>
+               placeholder="Consultar, $6.800…">
+        <div class="form-hint">Se muestra en la tarjeta</div>
       </div>
       <div class="form-group">
         <label class="form-label">Unidad de venta</label>
@@ -64,21 +100,24 @@
         <label class="form-label">Orden</label>
         <input type="number" name="order" class="form-control"
                value="{{ product.order|default:0 }}" min="0">
-        <div class="form-hint">Menor número aparece primero</div>
+        <div class="form-hint">Menor = primero</div>
       </div>
     </div>
 
+    <!-- Etiqueta -->
     <div class="form-group">
       <label class="form-label">Etiqueta destacada</label>
       <input type="text" name="tag" class="form-control"
              value="{{ product.tag|default:'' }}"
              placeholder="Ej: Al Vacío, Mayorista, Nuevo, Oferta…">
-      <div class="form-hint">Aparece como chip naranja sobre la imagen del producto. Dejar vacío para no mostrar.</div>
+      <div class="form-hint">Chip naranja sobre la imagen. Dejar vacío para no mostrar.</div>
     </div>
 
+    <!-- Activo -->
     <div class="form-group">
       <label class="form-check">
-        <input type="checkbox" name="active" value="1" {% if product.active or is_new %}checked{% endif %}>
+        <input type="checkbox" name="active" value="1"
+               {% if product.active or is_new %}checked{% endif %}>
         <span class="form-check-label">Visible en el catálogo del sitio</span>
       </label>
     </div>
@@ -92,10 +131,26 @@
   </button>
   <a href="{% url 'admin_productos' %}" class="btn btn-ghost">Cancelar</a>
   {% if not is_new %}
-  <a href="{% url 'admin_producto_delete' product.pk %}" class="btn btn-danger" style="margin-left:auto">🗑 Eliminar</a>
+  <a href="{% url 'admin_producto_delete' product.pk %}" class="btn btn-danger" style="margin-left:auto">
+    🗑 Eliminar
+  </a>
   {% endif %}
 </div>
 
 </form>
 </div>
+
+<script>
+function previewImage(input) {
+  const preview = document.getElementById('img-preview');
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+</script>
 {% endblock %}

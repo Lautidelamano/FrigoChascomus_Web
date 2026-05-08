@@ -20,7 +20,10 @@ class Product(models.Model):
     category    = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True,
                                     verbose_name='Categoría', related_name='products')
     name        = models.CharField('Nombre', max_length=200)
-    emoji       = models.CharField('Emoji', max_length=10, default='🥩')
+    emoji       = models.CharField('Emoji', max_length=10, default='🥩',
+                                   help_text='Se usa como fallback si no hay imagen')
+    image       = models.ImageField('Imagen', upload_to='products/', blank=True, null=True,
+                                    help_text='Foto del producto (jpg, png). Recomendado: 600x400px')
     description = models.TextField('Descripción', blank=True)
     price_label = models.CharField('Precio', max_length=100, default='Consultar',
                                    help_text='Ej: Consultar, $6.800, Precio mayorista')
