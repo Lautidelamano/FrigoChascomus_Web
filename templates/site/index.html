@@ -92,6 +92,11 @@ h2.about em{font-style:italic;color:var(--or)}
   object-position:center;
   display:block;
 }
+.link_maps{
+  text-decoration: none;
+  color: white;
+}
+
 /* Etiqueta naranja sobre la imagen */
 .ptag{position:absolute;top:12px;left:0;background:var(--or);color:white;font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:0 4px 4px 0;z-index:1}
 
@@ -234,7 +239,9 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
     <img class="hero-logo" src="{% static 'img/logo.png' %}" alt="Frigo Chascomús"
          onerror="this.style.display='none';document.getElementById('hero-emoji').style.display='block'">
     <div id="hero-emoji" style="font-size:160px;animation:flt 5s ease-in-out infinite;display:none">🐄</div>
-    <div class="hero-chip">📍 <b>Cnel. Baigorria 2353</b> · Chascomús, Bs. As.</div>
+    <div class="hero-chip">
+      <a class="link_maps" href="https://maps.app.goo.gl/F1CQCqr1kf616W428" target="_blank" rel="noopener noreferrer"><b>📍 Cnel. Baigorria 2353</b> · Chascomús, Bs. As.</a>
+    </div>
   </div>
 </section>
 
