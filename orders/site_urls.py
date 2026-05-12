@@ -12,6 +12,8 @@ def home(request):
     })
 
 
+
+
 urlpatterns = [
     path('', home, name='home'),
 ]

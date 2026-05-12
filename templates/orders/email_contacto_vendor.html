@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nueva consulta — Frigo Chascomús</title>
+</head>
+<body style="margin:0;padding:0;background:#F0E8DC;font-family:Georgia,serif">
+
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#F0E8DC;padding:40px 16px">
+    <tr><td align="center">
+    <table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%">
+
+      <!-- ══ HEADER ══ -->
+      <tr>
+        <td style="background:#2C1A08;padding:0;border-radius:10px 10px 0 0;overflow:hidden">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr><td style="background:#E07B00;height:5px;font-size:0">&nbsp;</td></tr>
+            <tr>
+              <td style="padding:24px 36px">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td>
+                      <table cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td style="width:42px;height:42px;background:#E07B00;border-radius:50%;text-align:center;vertical-align:middle;font-size:22px">🐄</td>
+                          <td style="padding-left:12px">
+                            <div style="font-family:Georgia,serif;font-size:20px;font-weight:bold;color:#F5A020">Frigo Chascomús</div>
+                            <div style="font-family:Arial,sans-serif;font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.15em;text-transform:uppercase;margin-top:2px">Panel de ventas</div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td align="right" valign="middle">
+                      <div style="font-family:Arial,sans-serif;font-size:11px;color:rgba(255,255,255,.4)">
+                        {{ fecha }}<br>
+                        <strong style="color:rgba(255,255,255,.6)">{{ hora }} hs</strong>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- ══ ALERTA ACCIÓN ══ -->
+      <tr>
+        <td style="background:#FFF8F0;padding:16px 36px;border-left:1px solid #EAE0D4;border-right:1px solid #EAE0D4">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="width:36px;height:36px;background:#E07B00;border-radius:50%;text-align:center;vertical-align:middle;font-size:18px">📩</td>
+              <td style="padding-left:14px">
+                <div style="font-family:Arial,sans-serif;font-size:16px;font-weight:bold;color:#2C1A08">Nueva consulta desde el sitio web</div>
+                <div style="font-family:Arial,sans-serif;font-size:13px;color:#8A7060;margin-top:2px">Un visitante dejó sus datos para ser contactado.</div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- ══ DATOS DEL CONSULTANTE ══ -->
+      <tr>
+        <td style="background:#ffffff;padding:28px 36px 0;border-left:1px solid #EAE0D4;border-right:1px solid #EAE0D4">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:bold;letter-spacing:.18em;text-transform:uppercase;color:#E07B00;margin-bottom:16px">
+            👤 Datos del consultante
+          </div>
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#F8F3EC;border-radius:8px;border:1px solid #EAE0D4">
+            <tr>
+              <td style="padding:20px 24px">
+                <!-- Nombre -->
+                <div style="font-family:Georgia,serif;font-size:20px;font-weight:bold;color:#2C1A08;margin-bottom:16px">
+                  {{ nombre }}
+                </div>
+                <table cellpadding="0" cellspacing="0" width="100%">
+                  <tr>
+                    <!-- Teléfono clickeable -->
+                    <td style="width:50%;vertical-align:top;padding-right:12px">
+                      <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:bold;letter-spacing:.12em;text-transform:uppercase;color:#B07040;margin-bottom:5px">Teléfono</div>
+                      {% if telefono %}
+                      <a href="tel:{{ telefono }}" style="font-family:Arial,sans-serif;font-size:20px;font-weight:bold;color:#E07B00;text-decoration:none">
+                        {{ telefono }}
+                      </a>
+                      {% else %}
+                      <span style="font-family:Arial,sans-serif;font-size:14px;color:#B0A090;font-style:italic">(no indicado)</span>
+                      {% endif %}
+                    </td>
+                    <!-- Email clickeable -->
+                    <td style="width:50%;vertical-align:top;padding-left:12px;border-left:1px solid #EAE0D4">
+                      <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:bold;letter-spacing:.12em;text-transform:uppercase;color:#B07040;margin-bottom:5px">Email</div>
+                      <a href="mailto:{{ email }}" style="font-family:Arial,sans-serif;font-size:14px;color:#2980B9;text-decoration:none">
+                        {{ email }}
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- ══ MENSAJE ══ -->
+      {% if mensaje %}
+      <tr>
+        <td style="background:#ffffff;padding:20px 36px 0;border-left:1px solid #EAE0D4;border-right:1px solid #EAE0D4">
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:bold;letter-spacing:.18em;text-transform:uppercase;color:#E07B00;margin-bottom:12px">
+            💬 Mensaje
+          </div>
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#FBF5EC;border-left:4px solid #E07B00;border-radius:0 6px 6px 0">
+            <tr>
+              <td style="padding:18px 20px">
+                <div style="font-family:Georgia,serif;font-size:15px;color:#4A3020;font-style:italic;line-height:1.7">
+                  "{{ mensaje }}"
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td style="background:#ffffff;padding:20px 36px 0;border-left:1px solid #EAE0D4;border-right:1px solid #EAE0D4">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#F8F3EC;border-radius:6px;border:1px dashed #D8CFC4">
+            <tr>
+              <td style="padding:16px 20px;text-align:center">
+                <div style="font-family:Arial,sans-serif;font-size:13px;color:#B0A090;font-style:italic">(El consultante no dejó un mensaje)</div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      {% endif %}
+
+      <!-- ══ CIERRE ══ -->
+      <tr>
+        <td style="background:#ffffff;padding:24px 36px 32px;border-left:1px solid #EAE0D4;border-right:1px solid #EAE0D4">
+          <div style="border-top:1px solid #EAE0D4;padding-top:18px;font-family:Arial,sans-serif;font-size:13px;color:#8A7060;line-height:1.6">
+            Podés responder este email directamente para contactar al consultante, o llamarlo al número indicado arriba.
+          </div>
+        </td>
+      </tr>
+
+      <!-- ══ FOOTER ══ -->
+      <tr>
+        <td style="background:#2C1A08;padding:22px 36px;border-radius:0 0 10px 10px;border-top:3px solid #E07B00">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td>
+                <div style="font-family:Georgia,serif;font-size:14px;color:#F5A020;font-weight:bold;margin-bottom:4px">Frigo Chascomús</div>
+                <div style="font-family:Arial,sans-serif;font-size:11px;color:rgba(255,255,255,.35);line-height:1.7">
+                  Sistema de consultas web · Microgauss S.A.
+                </div>
+              </td>
+              <td align="right" valign="middle">
+                <div style="width:38px;height:38px;background:#E07B00;border-radius:50%;text-align:center;line-height:38px;font-size:20px">🐄</div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr><td style="height:32px"></td></tr>
+
+    </table>
+    </td></tr>
+  </table>
+
+</body>
+</html>
