@@ -342,11 +342,12 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
     <div>
       <div class="sec-eyc" style="text-align:left;margin-bottom:18px">Envianos tu consulta</div>
       <div class="cform">
-        <input class="finput" type="text" placeholder="Tu nombre">
-        <input class="finput" type="email" placeholder="Email">
-        <input class="finput" type="tel" placeholder="Teléfono / WhatsApp">
-        <textarea class="finput" rows="4" placeholder="¿En qué podemos ayudarte?"></textarea>
-        <button class="btn-or">Enviar consulta</button>
+        <input class="finput" id="cNombre"   type="text"  placeholder="Tu nombre">
+        <input class="finput" id="cEmail"    type="email" placeholder="Email">
+        <input class="finput" id="cTelefono" type="tel"   placeholder="Teléfono / WhatsApp">
+        <textarea class="finput" id="cMensaje" rows="4"   placeholder="¿En qué podemos ayudarte?"></textarea>
+        <button class="btn-or" onclick="enviarConsulta()">Enviar consulta</button>
+        <div id="contactoMsg" style="display:none;padding:12px 16px;border-radius:4px;font-size:14px;font-weight:600"></div>
       </div>
     </div>
   </div>
@@ -521,6 +522,48 @@ function filterCat(cat, btn) {
   document.querySelectorAll('.pcard').forEach(c =>
     c.classList.toggle('hidden', cat !== 'todos' && c.dataset.cat !== cat)
   );
+}
+
+async function enviarConsulta() {
+  const nombre   = document.getElementById('cNombre').value.trim();
+  const email    = document.getElementById('cEmail').value.trim();
+  const telefono = document.getElementById('cTelefono').value.trim();
+  const mensaje  = document.getElementById('cMensaje').value.trim();
+  const msgDiv   = document.getElementById('contactoMsg');
+
+  if (!nombre || !email) {
+    showToast('⚠️ Nombre y email son obligatorios');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/contacto/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+      body: JSON.stringify({ nombre, email, telefono, mensaje }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      // Limpiar campos
+      document.getElementById('cNombre').value   = '';
+      document.getElementById('cEmail').value    = '';
+      document.getElementById('cTelefono').value = '';
+      document.getElementById('cMensaje').value  = '';
+      // Mostrar confirmación
+      msgDiv.style.display    = 'block';
+      msgDiv.style.background = '#EAFAF1';
+      msgDiv.style.border     = '1px solid #82E0AA';
+      msgDiv.style.color      = '#1E7C3A';
+      msgDiv.textContent      = '✅ ¡Consulta enviada! Te contactamos a la brevedad.';
+      setTimeout(() => { msgDiv.style.display = 'none'; }, 5000);
+    } else {
+      showToast('⚠️ ' + (data.error || 'Error al enviar. Intentá de nuevo.'));
+    }
+  } catch(e) {
+    showToast('⚠️ Error de conexión. Intentá de nuevo.');
+  }
 }
 
 function showToast(msg) {

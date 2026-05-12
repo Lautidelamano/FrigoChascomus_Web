@@ -1,26 +1,203 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#F5EFE6;font-family:Arial,sans-serif">
-<table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 20px"><tr><td align="center">
-<table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%">
-  <tr><td style="background:#2C1A08;padding:28px 36px;border-radius:8px 8px 0 0;border-bottom:4px solid #E07B00">
-    <span style="font-size:20px;font-weight:bold;color:#F5A020">🐄 Frigo Chascomús</span>
-    <span style="display:block;font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.15em;text-transform:uppercase;margin-top:4px">Microgauss S.A.</span>
-  </td></tr>
-  <tr><td style="background:#fff;padding:32px 36px">
-    <p style="font-size:20px;color:#2C1A08;font-weight:bold;margin:0 0 8px">¡Hola, {{ order.customer_name }}!</p>
-    <p style="font-size:14px;color:#6B5E52;line-height:1.7;margin:0 0 24px">Recibimos tu consulta de pedido. Un vendedor te va a contactar a la brevedad al <strong style="color:#2C1A08">{{ order.customer_phone }}</strong> para confirmar precios y entrega.</p>
-    <div style="background:#FDF0DC;border-left:4px solid #E07B00;border-radius:4px;padding:18px 22px;margin-bottom:24px">
-      <div style="font-size:11px;font-weight:bold;letter-spacing:.12em;text-transform:uppercase;color:#7A5030;margin-bottom:12px">📋 Productos solicitados</div>
-      {% for item in order.items %}
-      <div style="font-size:14px;color:#2C1A08;margin-bottom:8px">{{ item.emoji }} <strong>{{ item.name }}</strong> — {{ item.qty }} {% if item.qty > 1 %} unidades {% else %} unidad {% endif %}</div>
-      {% endfor %}
-    </div>
-    {% if order.notes %}<div style="background:#F8F3EC;border-radius:4px;padding:14px 18px;margin-bottom:24px;font-size:13px;color:#4A2E10;font-style:italic">"{{ order.notes }}"</div>{% endif %}
-    <p style="font-size:14px;color:#6B5E52">Ante cualquier consulta llamanos al <strong style="color:#2C1A08">02241 – 430885</strong>.</p>
-  </td></tr>
-  <tr><td style="background:#2C1A08;padding:20px 36px;border-radius:0 0 8px 8px;text-align:center">
-    <span style="font-size:12px;color:rgba(255,255,255,.35)">Frigo Chascomús · Microgauss S.A. · Cnel. Baigorria 2353, Chascomús · 02241-430885</span>
-  </td></tr>
-</table>
-</td></tr></table>
-</body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frigo Chascomús — Confirmación de pedido</title>
+</head>
+<body style="margin:0;padding:0;background:#F0E8DC;font-family:Georgia,serif">
+
+  <!-- WRAPPER -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#F0E8DC;padding:40px 16px">
+    <tr><td align="center">
+    <table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%">
+
+      <!-- ══ HEADER ══ -->
+      <tr>
+        <td style="background:#2C1A08;padding:0;border-radius:10px 10px 0 0;overflow:hidden">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <!-- Franja naranja superior -->
+            <tr><td style="background:#E07B00;height:5px;font-size:0">&nbsp;</td></tr>
+            <tr>
+              <td style="padding:28px 36px 24px">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td>
+                      <!-- Logo + nombre -->
+                      <table cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td style="width:42px;height:42px;background:#E07B00;border-radius:50%;text-align:center;vertical-align:middle;font-size:22px">🐄</td>
+                          <td style="padding-left:12px">
+                            <div style="font-family:Georgia,serif;font-size:20px;font-weight:bold;color:#F5A020;line-height:1.1">Frigo Chascomús</div>
+                            <div style="font-family:Arial,sans-serif;font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.15em;text-transform:uppercase;margin-top:2px">Microgauss S.A.</div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td align="right" valign="middle">
+                      <div style="background:#E07B00;color:white;font-family:Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:.08em;text-transform:uppercase;padding:7px 16px;border-radius:20px;display:inline-block">
+                        ✓ Pedido recibido
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- ══ SALUDO ══ -->
+      <tr>
+        <td style="background:#ffffff;padding:36px 36px 0">
+          <div style="font-family:Georgia,serif;font-size:26px;font-weight:bold;color:#2C1A08;margin-bottom:12px;line-height:1.2">
+            ¡Hola, {{ order.customer_name }}!
+          </div>
+          <div style="font-family:Arial,sans-serif;font-size:15px;color:#5A4A3A;line-height:1.7;margin-bottom:0">
+            Recibimos tu consulta de pedido. Un vendedor de <strong style="color:#2C1A08">Frigo Chascomús</strong>
+            te va a contactar a la brevedad al
+            <strong style="color:#E07B00">{{ order.customer_phone }}</strong>
+            para confirmar cantidades, precios y fecha de entrega.
+          </div>
+        </td>
+      </tr>
+
+      <!-- ══ PRODUCTOS ══ -->
+      <tr>
+        <td style="background:#ffffff;padding:28px 36px 0">
+          <!-- Título sección -->
+          <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:bold;letter-spacing:.18em;text-transform:uppercase;color:#E07B00;margin-bottom:14px">
+            📋 Productos solicitados
+          </div>
+
+          <!-- Tabla de productos -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #EAE0D4;border-radius:8px;overflow:hidden">
+            {% for item in order.items %}
+            <tr style="{% if not forloop.last %}border-bottom:1px solid #EAE0D4{% endif %}">
+              <td style="padding:14px 18px;border-bottom:{% if not forloop.last %}1px solid #F0E8DC{% else %}none{% endif %}">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <!-- Emoji -->
+                    <td style="width:40px;height:40px;background:#FDF0DC;border-radius:6px;text-align:center;vertical-align:middle;font-size:20px">
+                      {{ item.emoji }}
+                    </td>
+                    <!-- Nombre -->
+                    <td style="padding-left:14px;vertical-align:middle">
+                      <div style="font-family:Georgia,serif;font-size:15px;font-weight:bold;color:#2C1A08">{{ item.name }}</div>
+                      <div style="font-family:Arial,sans-serif;font-size:12px;color:#8A7060;margin-top:2px">{{ item.qty }} × {{ item.unit }}</div>
+                    </td>
+                    <!-- Precio -->
+                    <td align="right" valign="middle" style="font-family:Arial,sans-serif;font-size:13px;color:#8A7060;white-space:nowrap;padding-left:12px">
+                      {{ item.price }}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            {% endfor %}
+            <!-- Total ítems -->
+            <tr>
+              <td style="background:#FDF0DC;padding:12px 18px;border-top:2px solid #E07B00">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="font-family:Arial,sans-serif;font-size:12px;color:#7A5030;font-weight:bold;text-transform:uppercase;letter-spacing:.06em">
+                      Total de ítems
+                    </td>
+                    <td align="right" style="font-family:Georgia,serif;font-size:16px;font-weight:bold;color:#2C1A08">
+                      {{ order.total_items }} producto{% if order.total_items != 1 %}s{% endif %}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- ══ COMENTARIO (si hay) ══ -->
+      {% if order.notes %}
+      <tr>
+        <td style="background:#ffffff;padding:20px 36px 0">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#FBF5EC;border-left:4px solid #E07B00;border-radius:0 6px 6px 0">
+            <tr>
+              <td style="padding:16px 20px">
+                <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:bold;letter-spacing:.15em;text-transform:uppercase;color:#B07040;margin-bottom:6px">Tu comentario</div>
+                <div style="font-family:Georgia,serif;font-size:14px;color:#4A3020;font-style:italic;line-height:1.6">"{{ order.notes }}"</div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      {% endif %}
+
+      <!-- ══ DATOS DE CONTACTO ══ -->
+      <tr>
+        <td style="background:#ffffff;padding:24px 36px 0">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#F8F3EC;border-radius:8px;border:1px solid #EAE0D4">
+            <tr>
+              <td style="padding:18px 22px">
+                <div style="font-family:Arial,sans-serif;font-size:10px;font-weight:bold;letter-spacing:.15em;text-transform:uppercase;color:#B07040;margin-bottom:12px">
+                  Tus datos registrados
+                </div>
+                <table cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="font-family:Arial,sans-serif;font-size:13px;color:#8A7060;padding-bottom:6px;width:90px">📞 Teléfono</td>
+                    <td style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#2C1A08;padding-bottom:6px">{{ order.customer_phone }}</td>
+                  </tr>
+                  <tr>
+                    <td style="font-family:Arial,sans-serif;font-size:13px;color:#8A7060;padding-bottom:6px">✉️ Email</td>
+                    <td style="font-family:Arial,sans-serif;font-size:13px;color:#2C1A08;padding-bottom:6px">{{ order.customer_email }}</td>
+                  </tr>
+                  {% if order.customer_zone %}
+                  <tr>
+                    <td style="font-family:Arial,sans-serif;font-size:13px;color:#8A7060">📍 Zona</td>
+                    <td style="font-family:Arial,sans-serif;font-size:13px;color:#2C1A08">{{ order.customer_zone }}</td>
+                  </tr>
+                  {% endif %}
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- ══ CIERRE ══ -->
+      <tr>
+        <td style="background:#ffffff;padding:28px 36px 36px">
+          <div style="font-family:Arial,sans-serif;font-size:14px;color:#5A4A3A;line-height:1.7;border-top:1px solid #EAE0D4;padding-top:24px">
+            Ante cualquier consulta podés llamarnos al
+            <strong style="color:#2C1A08">02241 – 430885</strong>
+            en horario de atención: Lunes a Viernes 6:00–14:00 · Sábados 6:00–11:00.
+          </div>
+        </td>
+      </tr>
+
+      <!-- ══ FOOTER ══ -->
+      <tr>
+        <td style="background:#2C1A08;padding:22px 36px;border-radius:0 0 10px 10px;border-top:3px solid #E07B00">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td>
+                <div style="font-family:Georgia,serif;font-size:14px;color:#F5A020;font-weight:bold;margin-bottom:4px">Frigo Chascomús</div>
+                <div style="font-family:Arial,sans-serif;font-size:11px;color:rgba(255,255,255,.35);line-height:1.7">
+                  Microgauss S.A. · Cnel. Baigorria 2353, Chascomús, Buenos Aires<br>
+                  Tel. 02241-430885 · SENASA habilitado
+                </div>
+              </td>
+              <td align="right" valign="middle">
+                <div style="width:38px;height:38px;background:#E07B00;border-radius:50%;text-align:center;line-height:38px;font-size:20px">🐄</div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <!-- Espacio inferior -->
+      <tr><td style="height:32px"></td></tr>
+
+    </table>
+    </td></tr>
+  </table>
+
+</body>
+</html>
