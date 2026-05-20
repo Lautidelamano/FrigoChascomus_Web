@@ -33,7 +33,11 @@
         <!-- Preview de la imagen actual -->
         <div style="margin-bottom:10px">
           <img src="{{ product.image.url }}"
+              {% if product.category.slug == 'media-res' %}
+               style="height:320px;width:100%;object-fit:cover;border-radius:6px;border:1px solid #EAE0D4;display:block">
+              {% else %}
                style="height:120px;width:100%;object-fit:cover;border-radius:6px;border:1px solid #EAE0D4;display:block">
+              {% endif %} 
           <label style="display:flex;align-items:center;gap:6px;margin-top:8px;cursor:pointer;font-size:13px;color:#C0392B">
             <input type="checkbox" name="remove_image" value="1">
             Eliminar imagen actual

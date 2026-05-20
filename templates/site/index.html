@@ -60,15 +60,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:70px;background:var(-
 .hero-ey::before{content:'';display:block;width:32px;height:2px;background:var(--or)}
 h1{font-family:'Merriweather',serif;font-size:clamp(48px,5vw,76px);font-weight:900;color:#FFF8F0;line-height:1}
 h1 .or{color:var(--or2)} h1 .it{font-style:italic}
-.hero-tag{font-family:'sans-serif',sans-serif;font-size:16px;font-weight:300;color:rgba(255,248,240,1);margin:22px 0 44px;line-height:1.8;max-width:380px}
+.hero-tag{font-family:'Nunito',sans-serif;font-size:16px;font-weight:300;color:rgba(255,248,240,1);margin:22px 0 44px;line-height:1.8;max-width:380px}
 .hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
 .btn-or{background:var(--or);color:white;padding:15px 34px;border-radius:4px;border:none;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:background .2s,transform .15s;box-shadow:0 4px 16px rgba(224,123,0,.4)}
 .btn-or:hover{background:var(--or2);transform:translateY(-2px)}
+.btn-or:disabled{
+  opacity:.7;
+  cursor:not-allowed;
+}
 .btn-gh{background:transparent;color:rgba(255,248,240,.8);padding:15px 34px;border-radius:4px;border:1px solid rgba(255,255,255,.2);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .2s,color .2s}
 .btn-gh:hover{border-color:var(--or);color:var(--or2)}
 .hero-stats{display:flex;gap:36px;margin-top:56px;padding-top:36px;border-top:1px solid rgba(255,255,255,.1)}
 .snum{font-family:'Merriweather',serif;font-size:34px;font-weight:700;color:var(--or2);line-height:1}
-.slbl{font-family:'Nunito',sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em;margin-top:5px}
+.slbl{font-family:'Nunito',sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:.08em;margin-top:5px}
 .hero-right{position:relative;z-index:3;display:flex;align-items:center;justify-content:center;padding:100px 40px 60px;flex-direction:column;gap:20px;}
 .hero-logo{width:300px;max-width:90%;filter:drop-shadow(0 20px 50px rgba(0,0,0,.5));animation:flt 5s ease-in-out infinite}
 @keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
@@ -129,6 +133,30 @@ h2.about em{font-style:italic;color:var(--or)}
   object-position:center;
   display:block;
 }
+
+/* Imagen para media res */
+
+.pimg-res{
+  height:320px;
+  background:var(--op);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:76px;
+  position:relative;
+  overflow:hidden;        /* recorta la imagen si es más grande */
+}
+/* La imagen real ocupa todo el espacio con recorte inteligente */
+.pimg-res img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
+
+
 .link_maps{
   text-decoration: none;
   color: white;
@@ -220,6 +248,11 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
 .os-item{font-size:13px;color:var(--bm);margin-bottom:5px;display:flex;justify-content:space-between}
 .submit-btn{width:100%;background:var(--or);color:white;border:none;padding:16px;border-radius:4px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s;box-shadow:0 4px 16px rgba(224,123,0,.3)}
 .submit-btn:hover{background:var(--or2)}
+.submit-btn:disabled{
+  opacity:.7;
+  cursor:not-allowed;
+}
+
 .success-st{text-align:center;padding:40px 30px;display:none}
 .success-st.show{display:block}
 .success-circ{width:76px;height:76px;background:#F0FAF0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 20px;border:2px solid #8BC88B}
@@ -230,8 +263,11 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
 @keyframes fiu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .hero-ey{animation:fiu .5s .1s both}.hero-left h1{animation:fiu .6s .2s both}.hero-tag{animation:fiu .6s .35s both}.hero-ctas{animation:fiu .6s .5s both}.hero-stats{animation:fiu .6s .65s both}.hero-right{animation:fiu .8s .3s both}
 @media(max-width:900px){
+  .nav-cart{display:flex;align-items:center;gap:8px;background:var(--or);border:none;color:white;padding:8px 16px;border-radius:4px;font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .2s}
   nav{padding:0 18px}.nav-links{display:none}
-  .hero{grid-template-columns:1fr}.hero-rbg,.hero-accent,.hero-right{display:none}
+  .hero{grid-template-columns:1fr;  background-image:
+    url("{% static 'img/Frigorifico-fondo-cell.png' %}");
+}.hero-rbg,.hero-accent,.hero-right{display:none}
   .hero-left{padding:100px 24px 60px}
   .about{padding:64px 20px}.about-in{grid-template-columns:1fr;gap:40px}.about-cards{display:none}
   #catalogo{padding:64px 20px}.grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
@@ -314,7 +350,6 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
   <h2 class="sec-title">El <em>catálogo</em> completo</h2>
   <p class="sec-desc">Cortes sueltos, media res y productos al vacío. Los precios se confirman con el vendedor según volumen y fecha.</p>
   <div class="filters">
-    <button class="fbtn active" onclick="filterCat('todos',this)">Todos</button>
     {% for cat in categories %}
     <button class="fbtn" onclick="filterCat('{{ cat.slug }}',this)">{{ cat.name }}</button>
     {% endfor %}
@@ -324,7 +359,11 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
     <div class="pcard" data-cat="{{ p.category.slug|default:'otros' }}">
 
       <!-- ── IMAGEN O EMOJI ── -->
+      {% if p.category.slug == "media-res" %}
+      <div class="pimg-res">
+      {% else %}
       <div class="pimg">
+      {% endif %}
         {% if p.image %}
           <img src="{{ p.image.url }}" alt="{{ p.name }}">
         {% else %}
@@ -393,7 +432,7 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
         <input class="finput" id="cEmail"    type="email" placeholder="Email">
         <input class="finput" id="cTelefono" type="tel"   placeholder="Teléfono / WhatsApp">
         <textarea class="finput" id="cMensaje" rows="4"   placeholder="¿En qué podemos ayudarte?"></textarea>
-        <button class="btn-or" onclick="enviarConsulta()">Enviar consulta</button>
+        <button id="btnConsulta" class="btn-or" onclick="enviarConsulta()">Enviar consulta</button>
         <div id="contactoMsg" style="display:none;padding:12px 16px;border-radius:4px;font-size:14px;font-weight:600"></div>
       </div>
     </div>
@@ -441,7 +480,7 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
       <div class="fg"><label class="fl">Email *</label><input class="finput" id="fEmail" type="email" placeholder="tu@email.com"></div>
       <div class="fg"><label class="fl">Zona / Localidad</label><input class="finput" id="fZone" type="text" placeholder="Ej: Chascomús, La Plata, CABA…"></div>
       <div class="fg"><label class="fl">Comentarios</label><textarea class="finput" id="fNotes" rows="3" placeholder="Ej: necesito entrega el jueves, tengo cámara para 100 kg…"></textarea></div>
-      <button class="submit-btn" onclick="submitOrder()">📨 Enviar Pedido a Frigo Chascomús</button>
+      <button class="submit-btn" id="btnPedido" onclick="submitOrder()">📨 Enviar Pedido a Frigo Chascomús</button>
     </div>
     <div class="success-st" id="successSt">
       <div class="success-circ">✅</div>
@@ -538,7 +577,13 @@ async function submitOrder() {
   const name  = document.getElementById('fName').value.trim();
   const phone = document.getElementById('fPhone').value.trim();
   const email = document.getElementById('fEmail').value.trim();
+  const btn    = document.getElementById('btnPedido');
   if (!name || !phone || !email) { showToast('⚠️ Completá nombre, teléfono y email'); return; }
+
+  btn.disabled = true;
+  btn.dataset.originalText = btn.innerHTML;
+  btn.innerHTML = 'Enviando...';
+
   try {
     const res = await fetch('/api/orders/', {
       method: 'POST',
@@ -561,6 +606,10 @@ async function submitOrder() {
       showToast('⚠️ ' + (data.error || 'Error al enviar. Intentá de nuevo.'));
     }
   } catch(e) { showToast('⚠️ Error de conexión. Intentá de nuevo.'); }
+
+  btn.disabled = false;
+  btn.innerHTML = btn.dataset.originalText;
+
 }
 
 function filterCat(cat, btn) {
@@ -571,17 +620,33 @@ function filterCat(cat, btn) {
   );
 }
 
+window.addEventListener('DOMContentLoaded', () => {
+  const defaultBtn = document.querySelector(
+    '.fbtn[onclick*="al-vacio"]'
+  );
+
+  if (defaultBtn) {
+    filterCat('al-vacio', defaultBtn);
+  }
+});
+
 async function enviarConsulta() {
   const nombre   = document.getElementById('cNombre').value.trim();
   const email    = document.getElementById('cEmail').value.trim();
   const telefono = document.getElementById('cTelefono').value.trim();
   const mensaje  = document.getElementById('cMensaje').value.trim();
   const msgDiv   = document.getElementById('contactoMsg');
+  const btn    = document.getElementById('btnConsulta');
+
 
   if (!nombre || !email) {
     showToast('⚠️ Nombre y email son obligatorios');
     return;
   }
+
+  btn.disabled = true;
+    btn.dataset.originalText = btn.innerHTML;
+    btn.innerHTML = 'Enviando...';
 
   try {
     const res = await fetch('/api/contacto/', {
@@ -611,6 +676,10 @@ async function enviarConsulta() {
   } catch(e) {
     showToast('⚠️ Error de conexión. Intentá de nuevo.');
   }
+
+  btn.disabled = false;
+  btn.innerHTML = btn.dataset.originalText;
+
 }
 
 function showToast(msg) {
