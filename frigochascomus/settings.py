@@ -67,15 +67,19 @@ else:
     }
 
 # Email
-EMAIL_BACKEND    = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST       = 'smtp-relay.brevo.com'
-EMAIL_PORT       = 587
-EMAIL_USE_TLS    = False
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER  = os.environ.get('EMAIL_HOST_USER')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp-relay.brevo.com'
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL  = 'Frigo Chascomús <chascomusfrigo@gmail.com>'
-VENTAS_EMAIL        = 'chascomusfrigo@gmail.com'
+
+DEFAULT_FROM_EMAIL = 'Frigo Chascomús <chascomusfrigo@gmail.com>'
+VENTAS_EMAIL = 'chascomusfrigo@gmail.com'
 
 # En desarrollo: imprimir emails en consola en lugar de enviarlos
 if DEBUG and not EMAIL_HOST_USER:
