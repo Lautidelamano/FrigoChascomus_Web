@@ -54,19 +54,12 @@ TEMPLATES = [{
 WSGI_APPLICATION = 'frigochascomus.wsgi.application'
 
 # Base de datos — usar SQLite en desarrollo, PostgreSQL en producción
-if os.environ.get('DB_NAME'):
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
     DATABASES = {
-        'default': {
-            'ENGINE':   'django.db.backends.postgresql',
-            'NAME':     os.environ.get('DB_NAME', 'frigochascomus'),
-            'USER':     os.environ.get('DB_USER', 'postgres'),
-            'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-            'HOST':     os.environ.get('DB_HOST', 'localhost'),
-            'PORT':     os.environ.get('DB_PORT', '5432'),
-        }
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
     }
 else:
-    # SQLite: funciona sin instalar nada — ideal para probar localmente
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
