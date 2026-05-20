@@ -72,7 +72,7 @@ EMAIL_HOST       = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
 EMAIL_PORT       = int(os.environ.get('EMAIL_PORT', 587))
 EMAIL_USE_TLS    = True
 EMAIL_HOST_USER  = os.environ.get('EMAIL_HOST_USER', 'chascomusfrigo@gmail.com')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'oitu plgr fmsk lvec')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'khpx jwiu qulp hdup')
 DEFAULT_FROM_EMAIL  = os.environ.get('DEFAULT_FROM_EMAIL', 'Frigo Chascomús <chascomusfrigo@gmail.com>')
 VENTAS_EMAIL        = os.environ.get('VENTAS_EMAIL', 'chascomusfrigo@gmail.com')
 
