@@ -115,8 +115,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/admin/login/'
 
 
-print("HOST:", settings.EMAIL_HOST)
-print("PORT:", settings.EMAIL_PORT)
-print("TLS:", settings.EMAIL_USE_TLS)
-print("SSL:", settings.EMAIL_USE_SSL)
-print("USER:", settings.EMAIL_HOST_USER)
+print("HOST:", EMAIL_HOST)
+print("PORT:", EMAIL_PORT)
+print("TLS:", EMAIL_USE_TLS)
+print("SSL:", EMAIL_USE_SSL)
+print("USER:", EMAIL_HOST_USER)
