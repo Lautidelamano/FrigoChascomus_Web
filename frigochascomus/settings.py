@@ -113,10 +113,3 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/admin/login/'
-
-
-print("HOST:", EMAIL_HOST)
-print("PORT:", EMAIL_PORT)
-print("TLS:", EMAIL_USE_TLS)
-print("SSL:", EMAIL_USE_SSL)
-print("USER:", EMAIL_HOST_USER)
