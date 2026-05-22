@@ -30,13 +30,13 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'frigochascomus.urls'
@@ -89,13 +89,13 @@ VENTAS_EMAIL = 'chascomusfrigo@gmail.com'
 
 # Configuración de Cloudinary
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dti1ckepj', # Reemplaza con tus datos o usa variables de entorno
-    'API_KEY': '813783585732712',
-    'API_SECRET': 'bPwfBmFOhq1B67lFbX3',
+    'CLOUD_NAME': 'dti1ckepj', 
+    'API_KEY': os.environ.get('API_KEY')
+    'API_SECRET': os.environ.get('API_SECRET')
 }
 
 
-# En desarrollo: imprimir emails en consola en lugar de enviarlos
+
 if DEBUG and not EMAIL_HOST_USER:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
