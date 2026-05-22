@@ -2,6 +2,9 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
+import cloudinary
+import cloudinary.uploader
+from cloudinary.utils import cloudinary_url
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,7 +19,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'cloudinary_storage',
     'django.contrib.staticfiles',
+    'cloudinary',
     'corsheaders',
     'orders',
 ]
@@ -81,6 +86,14 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = 'Frigo Chascomús <chascomusfrigo@gmail.com>'
 VENTAS_EMAIL = 'chascomusfrigo@gmail.com'
 
+# Configuración de Cloudinary
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dti1ckepj', # Reemplaza con tus datos o usa variables de entorno
+    'API_KEY': '813783585732712',
+    'API_SECRET': 'bPwfBmFOhq1B67lFbX3',
+}
+
+
 # En desarrollo: imprimir emails en consola en lugar de enviarlos
 if DEBUG and not EMAIL_HOST_USER:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -109,7 +122,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL  = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/admin/login/'
