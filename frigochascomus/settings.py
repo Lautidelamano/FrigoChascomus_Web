@@ -90,8 +90,8 @@ VENTAS_EMAIL = 'chascomusfrigo@gmail.com'
 # Configuración de Cloudinary
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dti1ckepj', 
-    'API_KEY': os.environ.get('API_KEY')
-    'API_SECRET': os.environ.get('API_SECRET')
+    'API_KEY': os.environ.get('API_KEY'),
+    'API_SECRET': os.environ.get('API_SECRET'),
 }
 
 
