@@ -13,18 +13,17 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-key-insegura-cambiar-en-produccio
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost 127.0.0.1').split()
 
-# --- CONFIGURACIÓN DE WHITE-NOISE (CORREGIDO PARA EVITAR ERROR DEL ADMIN) ---
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 WHITENOISE_MANIFEST_STRICT = False
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.staticfiles',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'cloudinary_storage',  # Debe ir antes de staticfiles
-    'django.contrib.staticfiles',
     'cloudinary',
     'corsheaders',
     'orders',
@@ -118,7 +117,7 @@ USE_I18N = USE_TZ = True
 
 STATIC_URL   = '/static/'
 STATIC_ROOT  = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else []
 
 MEDIA_URL  = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
