@@ -5,13 +5,16 @@ import dj_database_url
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-key-insegura-cambiar-en-produccion')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost 127.0.0.1').split()
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# --- CONFIGURACIÓN DE WHITE-NOISE (CORREGIDO PARA EVITAR ERROR DEL ADMIN) ---
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 WHITENOISE_MANIFEST_STRICT = False
 
 INSTALLED_APPS = [
@@ -20,7 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',
+    'cloudinary_storage',  # Debe ir antes de staticfiles
     'django.contrib.staticfiles',
     'cloudinary',
     'corsheaders',
@@ -30,7 +33,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Posición correcta
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -74,10 +77,8 @@ else:
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
 EMAIL_HOST = 'smtp-relay.brevo.com'
 EMAIL_PORT = 2525
-
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
@@ -87,14 +88,12 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = 'Frigo Chascomús <chascomusfrigo@gmail.com>'
 VENTAS_EMAIL = 'chascomusfrigo@gmail.com'
 
-# Configuración de Cloudinary
+# --- CONFIGURACIÓN DE CLOUDINARY (SEGURO Y CON SINTAXIS LIMPIA) ---
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dti1ckepj', 
-    'API_KEY': os.environ.get('API_KEY'),
-    'API_SECRET': os.environ.get('API_SECRET'),
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'dti1ckepj'), 
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
-
-
 
 if DEBUG and not EMAIL_HOST_USER:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
