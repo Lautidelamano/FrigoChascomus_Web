@@ -6,10 +6,11 @@ from django.utils.decorators import method_decorator
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.urls import path
-from .models import Order
+from .models import Order, ZonaEntrega
 from .emails import send_order_emails
 from django.utils import timezone
 from django.template.loader import render_to_string
+from shapely.geometry import shape, Point
 
 
 
@@ -28,12 +29,37 @@ class OrderCreateView(View):
         except Exception:
             return jresp({'error': 'JSON inválido'}, 400)
 
-        for f in ['customer_name', 'customer_phone', 'customer_email', 'items']:
+        for f in ['customer_name', 'customer_phone', 'customer_email', 'items', 'latitud', 'longitud']:
             if not data.get(f):
+                if not data.get(f.latitud or f.longitud):
+                    msg = 'Por favor marcá tu ubicación en el mapa.' if f in ['latitud', 'longitud'] else f'Falta el campo: {f}'
+                    return jresp({'error': msg}, 400)
                 return jresp({'error': f'Falta el campo: {f}'}, 400)
 
         if not data['items']:
             return jresp({'error': 'El pedido no tiene productos'}, 400)
+        
+        # ── LÓGICA DE MAPAS Y ZONAS ──
+        lat = float(data.get('latitud'))
+        lng = float(data.get('longitud'))
+        punto_cliente = Point(lng, lat)
+        zona_asignada = None
+
+        for zona in ZonaEntrega.objects.all():
+            try:
+                poligono = shape(json.loads(zona.poligono_geojson))
+                if poligono.contains(punto_cliente):
+                    zona_asignada = zona
+                    break
+            except Exception as e:
+                logger.error(f'Error parseando GeoJSON zona {zona.id}: {e}')
+                continue
+
+        if not zona_asignada:
+            return jresp({'error': 'Tu ubicación está fuera de nuestra área de cobertura.'}, 400)
+        
+        if zona_asignada.tipo == 'rojo':
+            return jresp({'error': f'Lo sentimos, no realizamos entregas en la zona: {zona_asignada.nombre}.'}, 400)
 
         clean_items = [{
             'id':    item.get('id'),
@@ -49,10 +75,13 @@ class OrderCreateView(View):
                 customer_name  = str(data['customer_name'])[:200],
                 customer_phone = str(data['customer_phone'])[:50],
                 customer_email = str(data['customer_email'])[:254],
-                customer_zone  = str(data.get('customer_zone', ''))[:200],
+                customer_zone  = zona_asignada.nombre,
+                latitud        = lat,
+                longitud       = lng,
                 notes          = str(data.get('notes', ''))[:2000],
                 items          = clean_items,
             )
+
         except Exception as e:
             logger.error(f'Error creando pedido: {e}')
             return jresp({'error': 'Error interno'}, 500)

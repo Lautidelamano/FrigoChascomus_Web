@@ -30,9 +30,20 @@
             <div style="font-size:14px">{{ order.customer_email }}</div>
           </div>
           <div>
-            <div class="form-label">Zona</div>
-            <div style="font-size:14px">{{ order.customer_zone|default:"—" }}</div>
-          </div>
+              <div class="form-label">Zona Validada</div>
+              <div style="font-size:14px;font-weight:bold;color:#417690">{{ order.customer_zone|default:"—" }}</div>
+            </div>
+            
+            {% if order.latitud and order.longitud %}
+            <div style="grid-column: 1 / -1; margin-top: 8px;">
+              <a href="https://www.google.com/maps/search/?api=1&query={{ order.latitud|stringformat:'f' }},{{ order.longitud|stringformat:'f' }}" 
+                 target="_blank" 
+                 class="btn btn-primary" 
+                 style="display: inline-flex; align-items: center; gap: 8px; background: #0F9D58; border: none;">
+                 📍 Abrir Ubicación en Google Maps
+              </a>
+            </div>
+            {% endif %}
         </div>
         {% if order.notes %}
         <div style="margin-top:16px;padding:12px 16px;background:#FDF0DC;border-left:3px solid #E07B00;border-radius:4px">

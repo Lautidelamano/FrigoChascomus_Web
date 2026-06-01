@@ -1,0 +1,71 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Zonas de Entrega — Panel{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-head">
+        <span>Zonas de Cobertura Disponibles</span>
+        <div class="card-head-actions">
+            <a href="{% url 'admin_zona_nueva' %}" class="btn btn-primary btn-sm">🗺️ Nueva Zona</a>
+        </div>
+    </div>
+    
+    <div class="card-body">
+        {% if zonas %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre de la Zona</th>
+                        <th style="text-align: center;">Tipo de Cobertura</th>
+                        <th style="width: 120px; text-align: center;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for z in zonas %}
+                    <tr>
+                        <td>
+                            {% if z.tipo == 'verde' %}
+                                <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: #2ECC71; margin-right: 8px;"></span>
+                            {% elif z.tipo == 'amarillo' %}
+                                <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: #F1C40F; margin-right: 8px;"></span>
+                            {% else %}
+                                <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: #E74C3C; margin-right: 8px;"></span>
+                            {% endif %}
+                            <strong>{{ z.nombre }}</strong>
+                        </td>
+                        <td style="text-align: center;">
+                            <span style="font-size: 12px; font-weight: bold; 
+                                {% if z.tipo == 'verde' %}color: #2ECC71;
+                                {% elif z.tipo == 'amarillo' %}color: #D4AC0D;
+                                {% else %}color: #E74C3C;{% endif %}">
+                                {{ z.get_tipo_display|upper }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="td-actions" style="display: flex; gap: 8px; justify-content: center;">
+                                <a href="{% url 'admin_zona_editar' z.pk %}" class="btn btn-ghost btn-sm" title="Editar">✏️</a>
+                                <form action="{% url 'admin_zona_eliminar' z.pk %}" method="POST" style="display: inline;" onsubmit="return confirm('¿Seguro querés eliminar la zona {{ z.nombre }}?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Eliminar" style="background: none; border: none; cursor: pointer;">🗑️</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state" style="text-align: center; padding: 40px 20px;">
+            <div class="empty-icon" style="font-size: 48px; margin-bottom: 10px;">🗺️</div>
+            <h3>No hay zonas de entrega configuradas</h3>
+            <div style="margin-top: 20px;">
+                <a href="{% url 'admin_zona_nueva' %}" class="btn btn-primary">Crear mi primera zona</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

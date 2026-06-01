@@ -22,4 +22,10 @@ urlpatterns = [
     path('categorias/nueva/',                admin_categoria_form,   name='admin_categoria_nueva'),
     path('categorias/<int:pk>/editar/',      admin_categoria_form,   name='admin_categoria_editar'),
     path('categorias/<int:pk>/eliminar/',    admin_categoria_delete, name='admin_categoria_delete'),
+
+    # Mapa
+    path('zonas/',                           admin_zonas,            name='admin_zonas'),
+    path('zonas/nueva/',                     admin_zona_form,        name='admin_zona_nueva'),
+    path('zonas/<int:pk>/editar/',           admin_zona_form,        name='admin_zona_editar'),
+    path('zonas/<int:pk>/eliminar/',         admin_zona_delete,      name='admin_zona_eliminar'),
 ]

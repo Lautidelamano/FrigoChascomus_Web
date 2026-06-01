@@ -1,0 +1,174 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block title %}{% if zona %}Editar Zona: {{ zona.nombre }}{% else %}Nueva Zona de Entrega{% endif %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+<style>
+    #admin-mapa-zonas {
+        height: 500px;
+        width: 100%;
+        border-radius: 6px;
+        border: 1.5px solid var(--bd, #ccc);
+    }
+    .req { color: red; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-head">
+        <span>{% if zona %}Modificar Zona de Entrega{% else %}Nueva Zona de Entrega{% endif %}</span>
+        <div class="card-head-actions">
+            <a href="{% url 'admin_zonas' %}" class="btn btn-ghost btn-sm">Volver al listado</a>
+        </div>
+    </div>
+    
+    <div class="card-body">
+        <form method="POST" id="form-zona">
+            {% csrf_token %}
+            
+            <div class="form-row form-row-2">
+                <div class="form-group">
+                    <label class="form-label" for="nombre">Nombre de la Zona <span class="req">*</span></label>
+                    <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ej: Casco Urbano Chascomús" value="{{ zona.nombre|default:'' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="tipo">Tipo de Cobertura <span class="req">*</span></label>
+                    <select name="tipo" id="tipo" class="form-control" required>
+                        <option value="verde" {% if zona.tipo == "verde" or not zona %}selected{% endif %}>🟢 Envío estándar (Verde)</option>
+                        <option value="amarillo" {% if zona.tipo == "amarillo" %}selected{% endif %}>🟡 Consultar costos (Amarillo)</option>
+                        <option value="rojo" {% if zona.tipo == "rojo" %}selected{% endif %}>🔴 Sin llegada (Rojo)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 15px;">
+                <label class="form-label">Dibujar límites en el mapa <span class="req">*</span></label>
+                <div id="admin-mapa-zonas" style="margin-top: 10px;"></div>
+            </div>
+
+            <textarea name="poligono_geojson" id="geojson-input" style="display: none;" required>{{ zona.poligono_geojson|default:'' }}</textarea>
+
+            <div style="display: flex; gap: 10px; margin-top: 24px; border-top: 1px solid var(--bd, #eee); padding-top: 20px;">
+                <button type="submit" class="btn btn-primary">Guardar Zona</button>
+                <a href="{% url 'admin_zonas' %}" class="btn btn-ghost">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const jsonInput = document.getElementById('geojson-input');
+    const tipoSelect = document.getElementById('tipo');
+    if (!jsonInput || !tipoSelect) return;
+
+    // Mapa de colores según tus opciones del modelo
+    const colorMap = {
+        'verde': '#2ECC71',
+        'amarillo': '#F1C40F',
+        'rojo': '#E74C3C'
+    };
+
+    function obtenerColorActual() {
+        return colorMap[tipoSelect.value] || '#2ECC71';
+    }
+
+    // Inicializar mapa centrado en Chascomús (Evita 403 con CartoDB Voyager)
+    const map = L.map('admin-mapa-zonas').setView([-35.5772, -58.0084], 13);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri'
+    }).addTo(map);
+
+    const drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+
+    // Si edita, cargar el GeoJSON con el color correcto
+    if (jsonInput.value.trim() !== '') {
+        try {
+            const geojsonData = JSON.parse(jsonInput.value);
+            const color = obtenerColorActual();
+            const layer = L.geoJSON(geojsonData, {
+                style: function () {
+                    return { color: color, fillColor: color, fillOpacity: 0.3 };
+                }
+            });
+            layer.eachLayer(function(l) {
+                drawnItems.addLayer(l);
+            });
+            map.fitBounds(layer.getBounds());
+        } catch (e) {
+            console.error("Error al cargar GeoJSON", e);
+        }
+    }
+
+    // Configuración del control de dibujo
+    let drawControl = new L.Control.Draw({
+        edit: { featureGroup: drawnItems },
+        draw: {
+            polygon: {
+                allowIntersection: false,
+                shapeOptions: { color: obtenerColorActual(), fillColor: obtenerColorActual(), fillOpacity: 0.3 }
+            },
+            polyline: false, rectangle: false, circle: false, marker: false, circlemarker: false
+        }
+    });
+    map.addControl(drawControl);
+
+    // Cambiar color en tiempo real al seleccionar otro tipo
+    function actualizarEstiloMapa() {
+        const nuevoColor = obtenerColorActual();
+        
+        drawControl.setDrawingOptions({
+            polygon: {
+                shapeOptions: { color: nuevoColor, fillColor: nuevoColor, fillOpacity: 0.3 }
+            }
+        });
+
+        drawnItems.eachLayer(function(layer) {
+            if (layer.setStyle) {
+                layer.setStyle({ color: nuevoColor, fillColor: nuevoColor });
+            }
+        });
+    }
+
+    tipoSelect.addEventListener('change', actualizarEstiloMapa);
+
+    function updateHiddenInput() {
+        const layers = drawnItems.getLayers();
+        if (layers.length > 0) {
+            const geojson = layers[layers.length - 1].toGeoJSON();
+            jsonInput.value = JSON.stringify(geojson.geometry);
+        } else {
+            jsonInput.value = '';
+        }
+    }
+
+    map.on(L.Draw.Event.CREATED, function (e) {
+        drawnItems.clearLayers(); // Permite solo un polígono por zona
+        drawnItems.addLayer(e.layer);
+        updateHiddenInput();
+        actualizarEstiloMapa(); // Asegura el color seleccionado
+    });
+
+    map.on(L.Draw.Event.EDITED, updateHiddenInput);
+    map.on(L.Draw.Event.DELETED, updateHiddenInput);
+
+    document.getElementById('form-zona').addEventListener('submit', function(e) {
+        if (!jsonInput.value || jsonInput.value.trim() === '') {
+            e.preventDefault();
+            alert('Por favor, dibuje la zona en el mapa antes de guardar.');
+        }
+    });
+});
+</script>
+{% endblock %}

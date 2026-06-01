@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Frigo Chascomús — Microgauss S.A.</title>
+<title>Frigo ALP Chascomús — Microgauss S.A.</title>
+<link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,700;0,900;1,700&family=Nunito:wght@300;400;600;700;800&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
@@ -284,7 +286,7 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
     <div>
       <image class="nav-logo" src="{% static 'img/logo.png' %}"></image>
     </div>
-    <div><div class="nav-name">Frigo Chascomús</div><div class="nav-sub">Microgauss S.A.</div></div>
+    <div><div class="nav-name">Frigo ALP Chascomús</div><div class="nav-sub">Microgauss S.A.</div></div>
   </a>
   <ul class="nav-links">
     <li><a href="#nosotros">Nosotros</a></li>
@@ -326,7 +328,7 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
     <div>
       <div class="sec-ey">Quiénes somos</div>
       <h2 class="about">El campo bonaerense<br>en tu <em>mesa.</em></h2>
-      <p class="about-p">Frigo Chascomús es una empresa de la industria frigorífica bonaerense. Operamos bajo la razón social <strong>Microgauss S.A.</strong> y contamos con habilitación SENASA para toda nuestra operación.</p>
+      <p class="about-p">Frigo ALP Chascomús es una empresa de la industria frigorífica bonaerense. Operamos bajo la razón social <strong>Microgauss S.A.</strong> y contamos con habilitación SENASA para toda nuestra operación.</p>
       <p class="about-p">Trabajamos con hacienda de la zona de Chascomús y la cuenca del Salado, garantizando calidad, frescura y trazabilidad desde el campo hasta la entrega.</p>
       <div class="badges">
         <div class="badge">✅ SENASA habilitado</div>
@@ -440,11 +442,11 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
 </section>
 
 <footer>
-  <div class="ftbrand"><div><image class="ftcirc" src="{% static 'img/logo.png' %}"></image></div><div class="ftname">Frigo Chascomús</div></div>
+  <div class="ftbrand"><div><image class="ftcirc" src="{% static 'img/logo.png' %}"></image></div><div class="ftname">Frigo ALP Chascomús</div></div>
   <div class="ftlegal">
     <strong>Microgauss S.A.</strong> · Coronel Baigorria 2353, Chascomús, Buenos Aires<br>
     Tel. 02241-430885 · SENASA habilitado<br>
-    © {% now "Y" %} Frigo Chascomús — Todos los derechos reservados
+    © {% now "Y" %} Frigo ALP Chascomús — Todos los derechos reservados
   </div>
 </footer>
 
@@ -468,7 +470,7 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
   <div class="modal">
     <div class="modal-hd">
       <h3>Confirmá tu Pedido</h3>
-      <p>Completá tus datos y te contactamos a la brevedad.</p>
+      <p>Completá tus datos y marcá tu ubicación.</p>
       <button class="modal-x" onclick="closeModal()">✕</button>
     </div>
     <div class="modal-body" id="mBody">
@@ -478,14 +480,21 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
         <div class="fg"><label class="fl">Teléfono / WhatsApp *</label><input class="finput" id="fPhone" type="tel" placeholder="02241-000000"></div>
       </div>
       <div class="fg"><label class="fl">Email *</label><input class="finput" id="fEmail" type="email" placeholder="tu@email.com"></div>
-      <div class="fg"><label class="fl">Zona / Localidad</label><input class="finput" id="fZone" type="text" placeholder="Ej: Chascomús, La Plata, CABA…"></div>
-      <div class="fg"><label class="fl">Comentarios</label><textarea class="finput" id="fNotes" rows="3" placeholder="Ej: necesito entrega el jueves, tengo cámara para 100 kg…"></textarea></div>
-      <button class="submit-btn" id="btnPedido" onclick="submitOrder()">📨 Enviar Pedido a Frigo Chascomús</button>
+      
+      <div class="fg">
+        <label class="fl">Ubicación de entrega *</label>
+        <button type="button" onclick="usarMiUbicacion()" style="margin-bottom:8px; padding:6px; background:#FDF0DC; border:1px solid #E07B00; border-radius:4px; cursor:pointer; color:#4A2E10;">📍 Obtener mi ubicación actual</button>
+        <div id="mapa-checkout" style="height: 250px; width: 100%; border-radius: 6px; z-index: 1;"></div>
+      </div>
+
+      <div class="fg"><label class="fl">Comentarios</label><textarea class="finput" id="fNotes" rows="3" placeholder="Ej: necesito entrega el jueves..."></textarea></div>
+      <button class="submit-btn" id="btnPedido" onclick="submitOrder()">📨 Enviar Pedido</button>
     </div>
+    
     <div class="success-st" id="successSt">
       <div class="success-circ">✅</div>
       <h3>¡Pedido enviado!</h3>
-      <p>Recibimos tu consulta. Un vendedor te va a contactar a la brevedad para confirmar cantidades, precio y entrega.</p>
+      <p>Recibimos tu consulta. Un vendedor te va a contactar a la brevedad.</p>
       <br><p style="font-size:12px;color:#B0A090">También te enviamos un resumen por email.</p>
       <br><button class="btn-or" onclick="closeModal()" style="display:block;margin:0 auto">Cerrar</button>
     </div>
@@ -493,10 +502,47 @@ footer{background:var(--br);padding:36px 48px;text-align:center;border-top:3px s
 </div>
 
 <div class="toast" id="toast"></div>
-
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const CSRF = '{{ csrf_token }}';
 let cart = [];
+let map, marker;
+let currentLat = null;
+let currentLng = null;
+
+function initOrUpdateMap() {
+    if (!map) {
+        map = L.map('mapa-checkout').setView([-34.6037, -58.3816], 13);
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri'
+        }).addTo(map);
+        
+        marker = L.marker([-34.6037, -58.3816], {draggable: true}).addTo(map);
+        currentLat = -34.6037;
+        currentLng = -58.3816;
+
+        marker.on('dragend', function(e) {
+            let pos = marker.getLatLng();
+            currentLat = pos.lat;
+            currentLng = pos.lng;
+        });
+    }
+    // Fix para que el mapa renderice bien al abrir un modal oculto
+    setTimeout(() => { map.invalidateSize(); }, 200);
+}
+
+function usarMiUbicacion() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+            currentLat = pos.coords.latitude;
+            currentLng = pos.coords.longitude;
+            map.setView([currentLat, currentLng], 16);
+            marker.setLatLng([currentLat, currentLng]);
+        }, () => {
+            alert("No se pudo obtener la ubicación. Movelo manualmente.");
+        });
+    }
+}
 
 function addToCart(p) {
   const ex = cart.find(i => i.id === p.id);
@@ -569,32 +615,50 @@ function openModal() {
   document.getElementById('successSt').classList.remove('show');
   document.getElementById('cartOv').classList.remove('open');
   document.getElementById('cartPan').classList.remove('open');
+  initOrUpdateMap();
 }
 
 function closeModal() { document.getElementById('orderModal').classList.remove('open'); }
+
+function usarMiUbicacion() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+            currentLat = pos.coords.latitude;
+            currentLng = pos.coords.longitude;
+            map.setView([currentLat, currentLng], 16);
+            marker.setLatLng([currentLat, currentLng]);
+        }, () => {
+            alert("No se pudo obtener la ubicación. Movelo manualmente.");
+        });
+    }
+}
 
 async function submitOrder() {
   const name  = document.getElementById('fName').value.trim();
   const phone = document.getElementById('fPhone').value.trim();
   const email = document.getElementById('fEmail').value.trim();
   const btn    = document.getElementById('btnPedido');
+  
   if (!name || !phone || !email) { showToast('⚠️ Completá nombre, teléfono y email'); return; }
+  // Validación de que hayan movido el pin (opcional si ya tienen un default válido)
+  if (!currentLat || !currentLng) { showToast('⚠️ Marcá la ubicación de entrega'); return; }
 
   btn.disabled = true;
   btn.dataset.originalText = btn.innerHTML;
   btn.innerHTML = 'Enviando...';
 
   try {
-    const res = await fetch('/api/orders/', {
+    const res = await fetch('/api/orders/', { // Ajustá tu endpoint
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF }, // Asumo que tenés CSRF definido
       body: JSON.stringify({
         customer_name:  name,
         customer_phone: phone,
         customer_email: email,
-        customer_zone:  document.getElementById('fZone').value,
+        latitud:        currentLat,
+        longitud:       currentLng,
         notes:          document.getElementById('fNotes').value,
-        items: cart,
+        items: cart, // Asumo que cart es global
       }),
     });
     const data = await res.json();
@@ -609,7 +673,6 @@ async function submitOrder() {
 
   btn.disabled = false;
   btn.innerHTML = btn.dataset.originalText;
-
 }
 
 function filterCat(cat, btn) {

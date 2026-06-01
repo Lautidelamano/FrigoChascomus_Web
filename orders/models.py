@@ -45,6 +45,24 @@ class Product(models.Model):
         return f'{self.emoji} {self.name}'
 
 
+class ZonaEntrega(models.Model):
+    class Tipo(models.TextChoices):
+        VERDE = 'verde', 'Envío estándar'
+        AMARILLO = 'amarillo', 'Consultar costos'
+        ROJO = 'rojo', 'Sin llegada'
+
+    nombre = models.CharField('Nombre de la zona', max_length=100)
+    tipo = models.CharField('Tipo', max_length=20, choices=Tipo.choices, default=Tipo.VERDE)
+    poligono_geojson = models.TextField('GeoJSON', help_text="Datos geométricos en formato GeoJSON")
+
+    class Meta:
+        verbose_name = 'Zona de Entrega'
+        verbose_name_plural = 'Zonas de Entrega'
+
+    def __str__(self):
+        return f"{self.nombre} ({self.get_tipo_display()})"
+
+
 class Order(models.Model):
     class Status(models.TextChoices):
         NUEVO      = 'nuevo',      'Nuevo'
@@ -59,6 +77,8 @@ class Order(models.Model):
     customer_phone = models.CharField('Teléfono', max_length=50)
     customer_email = models.EmailField('Email')
     customer_zone  = models.CharField('Zona', max_length=200, blank=True)
+    latitud        = models.FloatField('Latitud', null=True, blank=True)
+    longitud       = models.FloatField('Longitud', null=True, blank=True)
     notes          = models.TextField('Comentarios', blank=True)
     items          = models.JSONField('Productos', default=list)
     status         = models.CharField('Estado', max_length=20,
@@ -81,3 +101,5 @@ class Order(models.Model):
     @property
     def total_items(self):
         return sum(i.get('qty', 1) for i in self.items)
+
+

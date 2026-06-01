@@ -6,7 +6,26 @@ from django.core.paginator import Paginator
 from django.db.models import Q, Count
 from django.utils.text import slugify
 from functools import wraps
-from .models import Order, Product, Category
+from django.contrib import admin
+from .models import Order, Product, Category, ZonaEntrega
+
+
+@admin.register(ZonaEntrega)
+class ZonaEntregaAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'tipo')
+    
+    class Media:
+        css = {
+            'all': (
+                'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+                'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css',
+            )
+        }
+        js = (
+            'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js',
+            'js/admin_mapa_zonas.js', # El mismo script de JS que te pase en la respuesta anterior
+        )
 
 
 def staff_required(fn):
@@ -250,3 +269,63 @@ def admin_categoria_delete(request, pk):
         'back_url': '/admin/categorias/',
         'warning':  f'Se va a desasignar la categoría de {cat.products.count()} productos.',
     })
+
+## ADMINISTRADOR PARA ZONAS
+def admin_zonas(request):
+    """Muestra el listado de todas las zonas de entrega en una tabla"""
+    zonas = ZonaEntrega.objects.all().order_by('nombre')
+    return render(request, 'admin/zonas_list.html', {
+        'zonas': zonas,
+        'nav_zonas': 'active'  # Activa el botón en el sidebar de tu base.html
+    })
+
+def admin_zona_form(request, pk=None):
+    """Maneja la creación y edición de zonas utilizando el tipo de zona del modelo"""
+    zona = get_object_or_400(ZonaEntrega, pk=pk) if pk else None
+
+    if request.method == "POST":
+        nombre = request.POST.get("nombre")
+        tipo = request.POST.get("tipo")  # Captura 'verde', 'amarillo' o 'rojo'
+        poligono_geojson = request.POST.get("poligono_geojson")
+
+        if not nombre or not poligono_geojson:
+            messages.error(request, "El nombre y la delimitación en el mapa son obligatorios.")
+            return render(request, 'admin/zonas_form.html', {'zona': zona})
+
+        if zona:
+            zona.nombre = nombre
+            zona.tipo = tipo
+            zona.poligono_geojson = poligono_geojson
+            zona.save()
+            messages.success(request, f"Zona '{nombre}' actualizada con éxito.")
+        else:
+            ZonaEntrega.objects.create(
+                nombre=nombre,
+                tipo=tipo,
+                poligono_geojson=poligono_geojson
+            )
+            messages.success(request, f"Zona '{nombre}' creada con éxito.")
+
+        return redirect('admin_zonas')
+
+    return render(request, 'admin/zonas_form.html', {
+        'zona': zona,
+        'nav_zonas': 'active'
+    })
+
+def admin_zona_delete(request, pk):
+    """Elimina la zona de entrega"""
+    zona = get_object_or_400(ZonaEntrega, pk=pk)
+    nombre = zona.nombre
+    
+    if request.method == "POST":
+        zona.delete()
+        messages.success(request, f"La zona '{nombre}' fue eliminada.")
+        return redirect('admin_zonas')
+        
+    # Fallback por si ejecutan un GET directo (así machea con tus otros views de eliminar)
+    zona.delete()
+    messages.success(request, f"La zona '{nombre}' fue eliminada.")
+    return redirect('admin_zonas')
+
+    return render(request, "admin/zonas_form.html", {"zona": zona})
